@@ -1341,10 +1341,6 @@ theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
 text = "0 Done. 1 Processing. 3 Waiting. ETA 100 Sec"
 
 [node name="PopupInfoPanel" parent="Margin" instance=ExtResource("17")]
-offset_left = 16.0
-offset_top = 16.0
-offset_right = 1584.0
-offset_bottom = 884.0
 
 [node name="Tutorial" parent="." instance=ExtResource("23")]
 unique_name_in_owner = true

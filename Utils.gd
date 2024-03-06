@@ -21,9 +21,8 @@ static func get_random_background() -> ImageTexture:
 # filenames, and grab the filename from there.
 static func list_imported_in_directory(path: String, full_path := false) -> Array:
 	var files := []
-	var dir := DirAccess.new()
-	# warning-ignore:return_value_discarded
-	dir.open(path)
+	var dir := DirAccess.open(path)
+
 	# warning-ignore:return_value_discarded
 	dir.list_dir_begin() # TODOConverter3To4 fill missing arguments https://github.com/godotengine/godot/pull/40547
 	while true:
@@ -60,16 +59,12 @@ static func shuffle_array(array: Array) -> void:
 # Converts a resource path to a texture, or a StreamTexture object
 # (which you get with `preload()`)
 # into an ImageTexture you can assign to a node's texture property.
-static func convert_texture_to_image(texture, is_lossless = false) -> ImageTexture:
+static func convert_texture_to_image(texture) -> ImageTexture:
 	var tex: CompressedTexture2D
 	if typeof(texture) == TYPE_STRING:
 		tex = load(texture)
 	else:
-#		print_debug(texture)
 		tex = texture
-	var new_texture = ImageTexture.new();
-	if is_lossless:
-		new_texture.storage = ImageTexture.STORAGE_COMPRESS_LOSSLESS
 	var image = tex.get_data()
-	new_texture.create_from_image(image)
+	var new_texture = ImageTexture.create_from_image(image)
 	return(new_texture)

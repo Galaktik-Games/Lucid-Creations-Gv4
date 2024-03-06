@@ -249,12 +249,12 @@ func _on_images_generated(completed_payload: Dictionary):
 #		+ "[color=yellow]Remember to rate them to receive a kudos refund![/color]"
 	status_text.modulate = Color(1,1,1)
 	for texture in completed_payload["image_textures"]:
-		var tr := GRID_TEXTURE_RECT.instantiate()
-		tr.set_texture(texture)
+		var gtr := GRID_TEXTURE_RECT.instantiate()
+		gtr.set_texture(texture)
 		# warning-ignore:return_value_discarded
-		tr.connect("left_mouse_mouse_clicked", Callable(self, "_on_grid_texture_left_clicked").bind(tr))
-#		tr.connect("right_mouse_mouse_clicked", self, "_on_grid_texture_right_clicked", [tr])
-		grid.add_child(tr)
+		gtr.connect("left_mouse_mouse_clicked", Callable(self, "_on_grid_texture_left_clicked").bind(gtr))
+#		gtr.connect("right_mouse_mouse_clicked", self, "_on_grid_texture_right_clicked", [gtr])
+		grid.add_child(gtr)
 	EventBus.emit_signal("generation_completed")
 
 func _on_image_process_update(stats: Dictionary) -> void:
@@ -314,8 +314,8 @@ func _sets_size_without_display_focus() -> void:
 	grid_scroll.size.x = grid_scroll.custom_minimum_size.x
 #	grid_scroll.rect_min_size.y = get_viewport().size.y - image_info.rect_size.y - 100
 	grid_scroll.custom_minimum_size.y = 0
-	for tr in grid.get_children():
-		tr.custom_minimum_size = Vector2(128,128)
+	for gtr in grid.get_children():
+		gtr.custom_minimum_size = Vector2(128,128)
 	grid.columns = int(grid_scroll.custom_minimum_size.x / 128)
 
 func _sets_size_with_display_focus() -> void:
@@ -323,8 +323,8 @@ func _sets_size_with_display_focus() -> void:
 	grid_scroll.custom_minimum_size.x = (get_viewport().size.x - controls.size.x) * 0.84
 	grid_scroll.size.x = grid_scroll.custom_minimum_size.x
 	grid_scroll.custom_minimum_size.y = 150
-	for tr in grid.get_children():
-		tr.custom_minimum_size = Vector2(64,64)
+	for gtr in grid.get_children():
+		gtr.custom_minimum_size = Vector2(64,64)
 	grid.columns = int(grid_scroll.custom_minimum_size.x / 128)
 
 func get_grid_min_size() -> Vector2:
@@ -357,9 +357,9 @@ func _on_ControlNet_meta_clicked(meta):
 func _get_test_images(n = 10) -> Array:
 	var test_array := []
 	for iter in range(n):
-		var new_seed = str(rand_seed(iter)[0])
-		var tex := preload("res://icon.png")
-		var img := tex.get_data()
+		var new_seed = str(rand_from_seed(iter)[0])
+		var tex = preload("res://icon.png")
+		var img = tex.get_data()
 		var new_texture := AIImageTexture.new(
 			'Test Prompt', 
 			{"sampler_name":"Test", 
@@ -374,7 +374,7 @@ func _get_test_images(n = 10) -> Array:
 			'Test Image ID',
 			"Test Request ID",
 			[])
-		new_texture.create_from_image(img)
+		#new_texture.create_from_image(img)
 		test_array.append(new_texture)
 	return(test_array)
 
@@ -390,23 +390,23 @@ func close_focus() -> void:
 	_sets_size_without_display_focus()
 	display_focus.hide()
 
-func _on_grid_texture_left_clicked(tr: GridTextureRect) -> void:
-	if tr.is_highlighted():
+func _on_grid_texture_left_clicked(gtr: GridTextureRect) -> void:
+	if gtr.is_highlighted():
 		close_focus()
 		return
-	focus_on_image(tr.texture)
-	clear_all_highlights_except(tr)
-	best_of.button_pressed = tr.bestof
-	aesthetic_rating.select(tr.aesthetic_rating)
-	if tr.artifacts_rating == null:
+	focus_on_image(gtr.texture)
+	clear_all_highlights_except(gtr)
+	best_of.button_pressed = gtr.bestof
+	aesthetic_rating.select(gtr.aesthetic_rating)
+	if gtr.artifacts_rating == null:
 		artifacts_rating.select(0)
 	else:
-		artifacts_rating.select(tr.artifacts_rating + 1)
+		artifacts_rating.select(gtr.artifacts_rating + 1)
 
 func clear_all_highlights_except(exception:GridTextureRect = null) -> void:
-	for tr in grid.get_children():
-		if tr != exception:
-			tr.clear_highlight()
+	for gtr in grid.get_children():
+		if gtr != exception:
+			gtr.clear_highlight()
 
 func _fill_in_details(imagetex: AIImageTexture) -> void:
 	image_prompt.text = "Prompt: " + imagetex.prompt
@@ -542,17 +542,17 @@ func _connect_hover_signals() -> void:
 
 
 func on_aethetic_rating_selected(index: int) -> void:
-	var tr = get_active_image_tr()
-	tr.aesthetic_rating = index
+	var gtr = get_active_image_tr()
+	gtr.aesthetic_rating = index
 	set_submit_button_state()
 
 
 func on_artifacts_rating_selected(index: int) -> void:
-	var tr = get_active_image_tr()
+	var gtr = get_active_image_tr()
 	if index == 0:
-		tr.artifacts_rating = null
+		gtr.artifacts_rating = null
 	else:
-		tr.artifacts_rating = index - 1
+		gtr.artifacts_rating = index - 1
 	set_submit_button_state()
 
 
@@ -562,24 +562,24 @@ func on_bestof_toggled(pressed: bool) -> void:
 	# we switch between images
 	if not pressed:
 		return
-	for tr in grid.get_children():
-		if tr.bestof and not tr.is_highlighted():
-			tr.bestof = false
-		if tr.is_highlighted():
-			tr.bestof = pressed
+	for gtr in grid.get_children():
+		if gtr.bestof and not gtr.is_highlighted():
+			gtr.bestof = false
+		if gtr.is_highlighted():
+			gtr.bestof = pressed
 	set_submit_button_state()
 
 
 func get_active_image_tr() -> GridTextureRect:
-	for tr in grid.get_children():
-		if tr.is_highlighted():
-			return tr
+	for gtr in grid.get_children():
+		if gtr.is_highlighted():
+			return gtr
 	return null
 
 
 func has_any_ratings() -> bool:
-	for tr in grid.get_children():
-		if tr.bestof or tr.aesthetic_rating:
+	for gtr in grid.get_children():
+		if gtr.bestof or gtr.aesthetic_rating:
 			return true
 	return false
 
@@ -599,18 +599,18 @@ func _on_shared_toggled() -> void:
 func _on_submit_ratings_pressed() -> void:
 #	submit_ratings.disabled = true
 	var submit_dict := {}
-	for tr in grid.get_children():
-		if tr.bestof:
-			submit_dict["best"] = tr.texture.image_horde_id
-		if tr.aesthetic_rating:
+	for gtr in grid.get_children():
+		if gtr.bestof:
+			submit_dict["best"] = gtr.texture.image_horde_id
+		if gtr.aesthetic_rating:
 			if not submit_dict.has("ratings"):
 				submit_dict["ratings"] = []
 			var rating_dict = {
-				"id": tr.texture.image_horde_id,
-				"rating": tr.aesthetic_rating,
+				"id": gtr.texture.image_horde_id,
+				"rating": gtr.aesthetic_rating,
 			}
-			if tr.artifacts_rating != null:
-				rating_dict["artifacts"] = tr.artifacts_rating
+			if gtr.artifacts_rating != null:
+				rating_dict["artifacts"] = gtr.artifacts_rating
 			submit_dict.ratings.append(rating_dict)
 #	print_debug(submit_dict)
 	stable_horde_rate_generation.submit_rating(

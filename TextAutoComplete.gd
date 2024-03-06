@@ -1,8 +1,8 @@
 extends LineEdit
 
 enum PopupPosition {
-	BELOW = 0
-	RIGHT
+	BELOW = 0,
+	RIGHT,
 	BOTH
 }
 # Emitted whenever an item is selected
