@@ -54,7 +54,11 @@ func _store_to_file() -> void:
 
 func _load_from_file() -> void:
 	var file = FileAccess.open("user://model_reference", FileAccess.READ)
-	var filevar = file.get_var()
-	if filevar:
-		model_reference = filevar
+	if !file:
+		printerr(FileAccess.get_open_error())
+		return
+	else:
+		var filevar = file.get_var()
+		if filevar:
+			model_reference = filevar
 	file.close()

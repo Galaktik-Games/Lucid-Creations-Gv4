@@ -20,7 +20,7 @@ var thread: Thread
 # the way it work is by duplicating existing button and modify it
 # so the "button group" will be the same / shared.
 # !!! `button` name should be the same as `panel` name that we want to control
-@onready var button_panels: Button = $Display/Panels
+@onready var button_panels: BaseButton = $Display/Panels
 
 # cycle background every generation
 @onready var background: TextureRect = $"../.."
@@ -40,8 +40,14 @@ func _ready() -> void:
 	for node in controls.get_children():
 		node.hide()
 	
+	# Get the groups and remove everything but the base button varients
+	var btnGroups = button_panels.get_groups()
+	for button in btnGroups:
+		if button.get_variant() != BaseButton:
+			btnGroups.pop_at(btnGroups.find(button))
+
 	# we pass the button name to get panel name :D
-	for button in button_panels.group.get_buttons():
+	for button in btnGroups:
 		button.connect("toggled", Callable(self, "_show_panel").bind(button.name))
 		if button.pressed:
 			_show_panel(true, button.name)

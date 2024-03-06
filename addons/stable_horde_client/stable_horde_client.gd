@@ -326,10 +326,10 @@ func _on_r2_retrieval_failed(error_msg: String, expected_amount: int) -> void:
 	if async_retrievals_completed >= expected_amount:
 		complete_image_request()
 
-func get_sampler_method_id() -> String:
+func get_sampler_method_id() -> int:
 	return(SamplerMethods[sampler_name])
 
-func get_control_type_id() -> String:
+func get_control_type_id() -> int:
 	return(ControlTypes[control_type])
 
 func cancel_request() -> void:

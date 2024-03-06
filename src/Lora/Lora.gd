@@ -245,7 +245,7 @@ func update_selected_loras_label() -> void:
 		}
 		bbtext.append(lora_text.format(lora_fmt))
 	selected_loras.text = ", ".join(bbtext)
-	indexes_to_remove.invert()
+	indexes_to_remove.reverse()
 	for index in indexes_to_remove:
 		selected_loras_list.pop_at(index)
 	if selected_loras_list.size() > 0:

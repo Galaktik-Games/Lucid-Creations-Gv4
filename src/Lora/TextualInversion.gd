@@ -219,7 +219,7 @@ func update_selected_tis_label() -> void:
 		}
 		bbtext.append(ti_text.format(ti_fmt))
 	selected_tis.text = ", ".join(bbtext)
-	indexes_to_remove.invert()
+	indexes_to_remove.reverse()
 	for index in indexes_to_remove:
 		selected_tis_list.pop_at(index)
 	if selected_tis_list.size() > 0:

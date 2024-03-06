@@ -225,7 +225,7 @@ func _update_selected_models_label() -> void:
 		}
 		bbtext.append(model_text.format(lora_fmt))
 	selected_models.text = ", ".join(bbtext)
-	indexes_to_remove.invert()
+	indexes_to_remove.reverse()
 	for index in indexes_to_remove:
 		selected_models_list.pop_at(index)
 	if selected_models_list.size() > 0:

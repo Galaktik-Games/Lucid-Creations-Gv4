@@ -166,7 +166,7 @@ func _update_selected_workers_label() -> void:
 		}
 		bbtext.append(worker_text.format(worker_fmt))
 	selected_workers.text = ", ".join(bbtext)
-	indexes_to_remove.invert()
+	indexes_to_remove.reverse()
 	for index in indexes_to_remove:
 		selected_workers_list.pop_at(index)
 	if selected_workers_list.size() > 0:

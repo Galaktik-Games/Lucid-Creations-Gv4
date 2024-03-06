@@ -60,11 +60,11 @@ static func shuffle_array(array: Array) -> void:
 # (which you get with `preload()`)
 # into an ImageTexture you can assign to a node's texture property.
 static func convert_texture_to_image(texture) -> ImageTexture:
-	var tex: CompressedTexture2D
+	var tex: Texture2D
 	if typeof(texture) == TYPE_STRING:
 		tex = load(texture)
 	else:
 		tex = texture
-	var image = tex.get_data()
+	var image = tex.get_image()
 	var new_texture = ImageTexture.create_from_image(image)
 	return(new_texture)

@@ -159,6 +159,9 @@ func _store_to_file() -> void:
 
 func _load_from_file() -> void:
 	var file = FileAccess.open("user://civitai_lora_reference", FileAccess.READ)
+	if !file:
+		printerr(FileAccess.get_open_error())
+		return
 	var filevar = file.get_var()
 	var old_reference: Dictionary
 	if filevar:
