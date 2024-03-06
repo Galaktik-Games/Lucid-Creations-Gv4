@@ -168,7 +168,7 @@ func _update_selected_workers_label() -> void:
 	selected_workers.text = ", ".join(bbtext)
 	indexes_to_remove.invert()
 	for index in indexes_to_remove:
-		selected_workers_list.remove(index)
+		selected_workers_list.pop_at(index)
 	if selected_workers_list.size() > 0:
 		selected_workers.show()
 	else:
@@ -180,7 +180,7 @@ func _on_selected_workers_meta_clicked(meta) -> void:
 		"hover":
 			_show_worker_details(selected_workers_list[int(meta_split[1])])
 		"delete":
-			selected_workers_list.remove(int(meta_split[1]))
+			selected_workers_list.pop_at(int(meta_split[1]))
 			_update_selected_workers_label()
 			_emit_selected_workers()
 

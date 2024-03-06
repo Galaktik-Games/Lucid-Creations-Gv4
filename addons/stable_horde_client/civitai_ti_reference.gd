@@ -113,14 +113,12 @@ func get_ti_name(ti_name: String) -> String:
 	return ti_reference.get(ti_name, {}).get("name", 'N/A')
 
 func _store_to_file() -> void:
-	var file = File.new()
-	file.open("user://civitai_ti_reference", File.WRITE)
+	var file = FileAccess.open("user://civitai_ti_reference", FileAccess.WRITE)
 	file.store_var(ti_reference)
 	file.close()
 
 func _load_from_file() -> void:
-	var file = File.new()
-	file.open("user://civitai_ti_reference", File.READ)
+	var file = FileAccess.open("user://civitai_ti_reference", FileAccess.READ)
 	var filevar = file.get_var()
 	if filevar:
 		ti_reference = filevar
@@ -217,7 +215,6 @@ func _store_ti(ti_data: Dictionary) -> void:
 	ti_id_index[int(ti_data["id"])] = ti_name
 
 func wipe_cache() -> void:
-	var dir = DirAccess.new()
-	dir.remove("user://civitai_ti_reference")
+	var dir = DirAccess.open("user://civitai_ti_reference").pop_at("user://civitai_ti_reference")
 	emit_signal("cache_wiped")
 	ti_reference = {}

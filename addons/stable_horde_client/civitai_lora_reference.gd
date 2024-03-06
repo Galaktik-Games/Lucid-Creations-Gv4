@@ -31,7 +31,7 @@ func get_lora_reference() -> void:
 		push_warning("CivitAI Lora RefCounted currently working. Cannot do more than 1 request at a time with the same Stable Horde Model RefCounted.")
 		return
 	state = States.WORKING
-	var error = request(horde_default_loras, [], false, HTTPClient.METHOD_GET)
+	var error = request(horde_default_loras, [], HTTPClient.METHOD_GET)
 	if error != OK:
 		var error_msg := "Something went wrong when initiating the request"
 		push_error(error_msg)
@@ -61,7 +61,7 @@ func seek_online(query: String) -> void:
 
 func fetch_next_page(json_ret: Dictionary) -> void:
 	var next_page_url = json_ret["metadata"]["nextPage"]
-	var error = request(next_page_url, [], false, HTTPClient.METHOD_GET)
+	var error = request(next_page_url, [], HTTPClient.METHOD_GET)
 	if error != OK:
 		var error_msg := "Something went wrong when initiating the request"
 		push_error(error_msg)
@@ -153,14 +153,12 @@ func _get_all_lora_ids() -> Dictionary:
 	return all_l_id
 
 func _store_to_file() -> void:
-	var file = File.new()
-	file.open("user://civitai_lora_reference", File.WRITE)
+	var file = FileAccess.open("user://civitai_lora_reference", FileAccess.WRITE)
 	file.store_var(lora_reference)
 	file.close()
 
 func _load_from_file() -> void:
-	var file = File.new()
-	file.open("user://civitai_lora_reference", File.READ)
+	var file = FileAccess.open("user://civitai_lora_reference", FileAccess.READ)
 	var filevar = file.get_var()
 	var old_reference: Dictionary
 	if filevar:
@@ -200,7 +198,7 @@ func _store_lora(lora_data: Dictionary) -> void:
 
 func wipe_cache() -> void:
 	var dir = DirAccess.new()
-	dir.remove("user://civitai_lora_reference")
+	dir.pop_at("user://civitai_lora_reference")
 	emit_signal("cache_wiped")
 	lora_reference = {}
 	get_lora_reference()

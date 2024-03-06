@@ -29,7 +29,7 @@ func get_model_showcase(
 		emit_signal("showcase_failed")
 		return
 	var showcase_url = model_reference["versions"][version_id]["images"][used_image_index]
-	var error = request(showcase_url, [], false, HTTPClient.METHOD_GET)
+	var error = request(showcase_url, [], HTTPClient.METHOD_GET)
 	if error != OK:
 		var error_msg := "Something went wrong when initiating the request"
 		push_error(error_msg)

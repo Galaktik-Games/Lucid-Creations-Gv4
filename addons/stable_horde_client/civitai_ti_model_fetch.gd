@@ -16,7 +16,7 @@ func fetch_metadata(final_url: String) -> void:
 		push_warning("CivitAI Textual Inversion RefCounted currently working. Cannot do more than 1 request at a time with the same Stable Horde Model RefCounted.")
 		return
 	state = States.WORKING
-	var error = request(final_url, [], false, HTTPClient.METHOD_GET)
+	var error = request(final_url, [], HTTPClient.METHOD_GET)
 	if error != OK:
 		var error_msg := "Something went wrong when initiating the request"
 		push_error(error_msg)

@@ -16,7 +16,7 @@ func login() -> void:
 		"Content-Type: application/json", "apikey: " + api_key,
 		"Client-Agent: " + client_agent
 	]
-	var error = request(aihorde_url + "/api/v2/find_user", headers, false, HTTPClient.METHOD_GET)
+	var error = request(aihorde_url + "/api/v2/find_user", headers, HTTPClient.METHOD_GET)
 	if error != OK:
 		var error_msg := "Something went wrong when initiating the stable horde request"
 		push_error(error_msg)

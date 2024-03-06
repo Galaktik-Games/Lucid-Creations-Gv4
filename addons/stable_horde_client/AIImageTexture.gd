@@ -133,8 +133,7 @@ func save_in_dir(save_dir_path: String) -> void:
 
 # This assumes the parent directory has been created already
 func save_attributes_to_file(filepath:String) -> void:
-	var file = File.new()
-	file.open(filepath, File.WRITE)
+	var file = FileAccess.open(filepath, FileAccess.WRITE)
 	file.store_string(JSON.stringify(attributes, '\t'))
 	file.close()
 	

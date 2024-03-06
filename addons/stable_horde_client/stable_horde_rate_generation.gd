@@ -17,7 +17,7 @@ func submit_rating(request_id: String, ratings_payload: Dictionary) -> void:
 #	print_debug(url)
 #	print_debug(body)
 #	print_debug(headers)
-	var error = request(url, headers, false, HTTPClient.METHOD_POST, body)
+	var error = request(url, headers, HTTPClient.METHOD_POST, body)
 	if error != OK:
 		var error_msg := "Something went wrong when initiating the stable horde request"
 		push_error(error_msg)

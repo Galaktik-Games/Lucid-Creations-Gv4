@@ -20,7 +20,7 @@ func get_model_showcase(_model_reference) -> void:
 	var showcase_list = model_reference.showcases
 	Utils.shuffle_array(showcase_list)
 	var showcase_url = showcase_list[0]
-	var error = request(showcase_url, [], false, HTTPClient.METHOD_GET)
+	var error = request(showcase_url, [], HTTPClient.METHOD_GET)
 	if error != OK:
 		var error_msg := "Something went wrong when initiating the request"
 		push_error(error_msg)

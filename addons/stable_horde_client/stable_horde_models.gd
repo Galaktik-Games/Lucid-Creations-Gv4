@@ -45,14 +45,12 @@ func process_request(json_ret) -> void:
 	state = States.READY
 
 func _store_to_file() -> void:
-	var file = File.new()
-	file.open("user://model_performances", File.WRITE)
+	var file = FileAccess.open("user://model_performances", FileAccess.WRITE)
 	file.store_var(model_performances)
 	file.close()
 
 func _load_from_file() -> void:
-	var file = File.new()
-	file.open("user://model_performances", File.READ)
+	var file = FileAccess.open("user://model_performances", FileAccess.READ)
 	var filevar = file.get_var()
 	if filevar:
 		model_performances = filevar

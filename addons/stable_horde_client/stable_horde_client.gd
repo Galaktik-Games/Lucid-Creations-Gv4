@@ -6,37 +6,37 @@ signal image_processing(stats)
 signal kudos_calculated(kudos)
 
 enum SamplerMethods {
-	k_lms = 0
-	k_heun
-	k_euler
-	k_euler_a
-	k_dpm_2
-	k_dpm_2_a
-	k_dpm_fast
-	k_dpm_adaptive
-	k_dpmpp_2s_a
-	k_dpmpp_2m
-	k_dpmpp_sde
-	dpmsolver
+	k_lms = 0,
+	k_heun,
+	k_euler,
+	k_euler_a,
+	k_dpm_2,
+	k_dpm_2_a,
+	k_dpm_fast,
+	k_dpm_adaptive,
+	k_dpmpp_2s_a,
+	k_dpmpp_2m,
+	k_dpmpp_sde,
+	dpmsolver,
 	lcm
 }
 
 enum ControlTypes {
-	none = 0
-	canny
-	hed
-	depth
-	normal
-	openpose
-	seg
-	scribble
-	fakescribbles
+	none = 0,
+	canny,
+	hed,
+	depth,
+	normal,
+	openpose,
+	seg,
+	scribble,
+	fakescribbles,
 	hough
 }
 
 enum OngoingRequestOperations {
-	CHECK
-	GET
+	CHECK,
+	GET,
 	CANCEL
 }
 
@@ -173,7 +173,7 @@ func generate(replacement_prompt := '', replacement_params := {}) -> void:
 		"apikey: " + api_key,
 		"Client-Agent: " + client_agent,
 	]
-	var error = request(aihorde_url + "/api/v2/generate/async", headers, false, HTTPClient.METHOD_POST, body)
+	var error = request(aihorde_url + "/api/v2/generate/async", headers, HTTPClient.METHOD_POST, body)
 	if error != OK:
 		var error_msg := "Something went wrong when initiating the stable horde request"
 		push_error(error_msg)
@@ -224,8 +224,7 @@ func check_request_process(operation := OngoingRequestOperations.CHECK) -> void:
 		delete_sent = true
 	var error = request(
 		url, 
-		["Client-Agent: " + client_agent], 
-		false, 
+		["Client-Agent: " + client_agent],  
 		method)
 	if state == States.WORKING and error != OK:
 		var error_msg := "Something went wrong when checking the status of Stable Horde Request: " + async_request_id
