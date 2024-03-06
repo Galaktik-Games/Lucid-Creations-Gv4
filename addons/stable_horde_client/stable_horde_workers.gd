@@ -51,7 +51,7 @@ func get_worker_info(worker_string: String) -> Dictionary:
 	return {}
 
 func is_worker(worker_string: String) -> bool:
-	return not get_worker_info(worker_string).empty()
+	return not get_worker_info(worker_string).is_empty()
 
 func get_workers_with_models(models: Array) -> Dictionary:
 #	for w in workers_by_name:

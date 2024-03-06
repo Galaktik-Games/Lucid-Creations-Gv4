@@ -4,7 +4,7 @@ extends StableHordeHTTPRequest
 signal login_successful(user_details)
 var user_details: Dictionary
 
-export(String) var api_key := '0000000000'
+@export var api_key := '0000000000'
 
 func login() -> void:
 	if state != States.READY:
@@ -36,7 +36,7 @@ func process_request(json_ret) -> void:
 	state = States.READY
 
 func has_logged_in() -> bool:
-	return(not user_details.empty())
+	return(not user_details.is_empty())
 
 func get_username() -> String:
 	if not has_logged_in():

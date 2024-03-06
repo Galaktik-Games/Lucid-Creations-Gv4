@@ -16,59 +16,59 @@ var viewed_ti_index : int = 0
 var civitai_search_initiated = false
 var current_models := []
 
-onready var ti_auto_complete = $"%TIAutoComplete"
-onready var stable_horde_models := $"%StableHordeModels"
-onready var ti_trigger_selection := $"%TITriggerSelection"
-onready var ti_info_card := $"%TIInfoCard"
-onready var ti_info_label := $"%TIInfoLabel"
-onready var civitai_showcase0 = $"%TICivitAIShowcase0"
-onready var civitai_showcase1 = $"%TICivitAIShowcase1"
-onready var ti_showcase0 = $"%TIShowcase0"
-onready var ti_showcase1 = $"%TIShowcase1"
-onready var selected_tis = $"%SelectedTIs"
-onready var show_all_tis = $"%ShowAllTIs"
-onready var ti_model_strength = $"%TIModelStrength"
-onready var ti_inject = $"%TIInject"
-onready var fetch_tis_from_civitai = $"%FetchTIsFromCivitAI"
+@onready var ti_auto_complete = $"%TIAutoComplete"
+@onready var stable_horde_models := $"%StableHordeModels"
+@onready var ti_trigger_selection := $"%TITriggerSelection"
+@onready var ti_info_card := $"%TIInfoCard"
+@onready var ti_info_label := $"%TIInfoLabel"
+@onready var civitai_showcase0 = $"%TICivitAIShowcase0"
+@onready var civitai_showcase1 = $"%TICivitAIShowcase1"
+@onready var ti_showcase0 = $"%TIShowcase0"
+@onready var ti_showcase1 = $"%TIShowcase1"
+@onready var selected_tis = $"%SelectedTIs"
+@onready var show_all_tis = $"%ShowAllTIs"
+@onready var ti_model_strength = $"%TIModelStrength"
+@onready var ti_inject = $"%TIInject"
+@onready var fetch_tis_from_civitai = $"%FetchTIsFromCivitAI"
 
 func _ready():
 	# warning-ignore:return_value_discarded
-	EventBus.connect("model_selected",self,"on_model_selection_changed")
+	EventBus.connect("model_selected", Callable(self, "on_model_selection_changed"))
 	# warning-ignore:return_value_discarded
-	EventBus.connect("cache_wipe_requested",self,"on_cache_wipe_requested")
+	EventBus.connect("cache_wipe_requested", Callable(self, "on_cache_wipe_requested"))
 	ti_reference_node = CivitAITIReference.new()
 	ti_reference_node.nsfw = globals.config.get_value("Parameters", "nsfw")
 	# warning-ignore:return_value_discarded
-	ti_reference_node.connect("reference_retrieved",self, "_on_reference_retrieved")
+	ti_reference_node.connect("reference_retrieved", Callable(self, "_on_reference_retrieved"))
 	# warning-ignore:return_value_discarded
-	ti_reference_node.connect("cache_wiped",self, "_on_cache_wiped")
+	ti_reference_node.connect("cache_wiped", Callable(self, "_on_cache_wiped"))
 	add_child(ti_reference_node)
 	# warning-ignore:return_value_discarded
-	ti_auto_complete.connect("item_selected", self,"_on_ti_selected")
+	ti_auto_complete.connect("item_selected", Callable(self, "_on_ti_selected"))
 	# warning-ignore:return_value_discarded
-	ti_trigger_selection.connect("id_pressed", self,"_on_trigger_selection_id_pressed")
+	ti_trigger_selection.connect("id_pressed", Callable(self, "_on_trigger_selection_id_pressed"))
 	# warning-ignore:return_value_discarded
-	civitai_showcase0.connect("showcase_retrieved",self, "_on_showcase0_retrieved")
+	civitai_showcase0.connect("showcase_retrieved", Callable(self, "_on_showcase0_retrieved"))
 	# warning-ignore:return_value_discarded
-	civitai_showcase1.connect("showcase_retrieved",self, "_on_showcase1_retrieved")
+	civitai_showcase1.connect("showcase_retrieved", Callable(self, "_on_showcase1_retrieved"))
 	# warning-ignore:return_value_discarded
-	selected_tis.connect("meta_clicked",self,"_on_selected_tis_meta_clicked")
+	selected_tis.connect("meta_clicked", Callable(self, "_on_selected_tis_meta_clicked"))
 	# warning-ignore:return_value_discarded
-	selected_tis.connect("meta_hover_started",self,"_on_selected_tis_meta_hover_started")
+	selected_tis.connect("meta_hover_started", Callable(self, "_on_selected_tis_meta_hover_started"))
 	# warning-ignore:return_value_discarded
-	selected_tis.connect("meta_hover_ended",self,"_on_selected_tis_meta_hover_ended")
+	selected_tis.connect("meta_hover_ended", Callable(self, "_on_selected_tis_meta_hover_ended"))
 	# warning-ignore:return_value_discarded
-	ti_info_label.connect("meta_clicked",self,"_on_ti_info_label_meta_clicked")
+	ti_info_label.connect("meta_clicked", Callable(self, "_on_ti_info_label_meta_clicked"))
 	# warning-ignore:return_value_discarded
-	show_all_tis.connect("pressed",self,"_on_show_all_tis_pressed")
+	show_all_tis.connect("pressed", Callable(self, "_on_show_all_tis_pressed"))
 	# warning-ignore:return_value_discarded
-	ti_info_card.connect("hide",self,"_on_ti_info_card_hide")
+	ti_info_card.connect("hide", Callable(self, "_on_ti_info_card_hide"))
 	# warning-ignore:return_value_discarded
-	ti_model_strength.connect("value_changed",self,"_on_ti_model_strength_value_changed")
+	ti_model_strength.connect("value_changed", Callable(self, "_on_ti_model_strength_value_changed"))
 	# warning-ignore:return_value_discarded
-	ti_inject.connect("value_changed",self,"_on_ti_inject_value_changed")
+	ti_inject.connect("value_changed", Callable(self, "_on_ti_inject_value_changed"))
 	# warning-ignore:return_value_discarded
-	fetch_tis_from_civitai.connect("pressed",self,"_on_fetch_tis_from_civitai_pressed")
+	fetch_tis_from_civitai.connect("pressed", Callable(self, "_on_fetch_tis_from_civitai_pressed"))
 	_on_reference_retrieved(ti_reference_node.ti_reference)
 	selected_tis_list = globals.config.get_value("Parameters", "tis", [])
 	update_selected_tis_label()
@@ -104,8 +104,8 @@ func _on_reference_retrieved(model_reference: Dictionary):
 
 func _show_ti_details(ti_name: String) -> void:
 	var ti_reference := ti_reference_node.get_ti_info(ti_name)
-	if ti_reference.empty():
-		ti_info_label.bbcode_text = "No ti info could not be retrieved at this time."
+	if ti_reference.is_empty():
+		ti_info_label.text = "No ti info could not be retrieved at this time."
 	else:
 		civitai_showcase0.get_model_showcase(ti_reference)
 		civitai_showcase1.get_model_showcase(ti_reference)
@@ -129,10 +129,10 @@ func _show_ti_details(ti_name: String) -> void:
 		var label_text = "{unusable}[b]Name: {name}[/b]\nDescription: {description}\nVersion: {version}\n".format(fmt)
 		label_text += "\nTriggers: {trigger}".format(fmt)
 		label_text += "\nCivitAI page: [url={url}]{url}[/url]".format(fmt)
-		ti_info_label.bbcode_text = label_text
-	ti_info_card.rect_size = Vector2(0,0)
+		ti_info_label.text = label_text
+	ti_info_card.size = Vector2(0,0)
 	ti_info_card.popup()
-	ti_info_card.rect_global_position = get_global_mouse_position() + Vector2(30,-ti_info_card.rect_size.y/2)
+	ti_info_card.global_position = get_global_mouse_position() + Vector2(30,-ti_info_card.size.y/2)
 
 func _on_selected_tis_meta_clicked(meta) -> void:
 	var meta_split = meta.split(":")
@@ -218,7 +218,7 @@ func update_selected_tis_label() -> void:
 			"inject": inject_string,
 		}
 		bbtext.append(ti_text.format(ti_fmt))
-	selected_tis.bbcode_text = ", ".join(bbtext)
+	selected_tis.text = ", ".join(bbtext)
 	indexes_to_remove.invert()
 	for index in indexes_to_remove:
 		selected_tis_list.remove(index)
@@ -264,11 +264,11 @@ func _on_trigger_selection_id_pressed(id: int) -> void:
 
 func _on_showcase0_retrieved(img:ImageTexture, _model_name) -> void:
 	ti_showcase0.texture = img
-	ti_showcase0.rect_min_size = Vector2(300,300)
+	ti_showcase0.custom_minimum_size = Vector2(300,300)
 
 func _on_showcase1_retrieved(img:ImageTexture, _model_name) -> void:
 	ti_showcase1.texture = img
-	ti_showcase1.rect_min_size = Vector2(300,300)
+	ti_showcase1.custom_minimum_size = Vector2(300,300)
 
 func clear_textures() -> void:
 	ti_showcase1.texture = null

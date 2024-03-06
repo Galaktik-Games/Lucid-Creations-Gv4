@@ -13,7 +13,7 @@ func _ready() -> void:
 
 func fetch_metadata(final_url: String) -> void:
 	if state != States.READY:
-		push_warning("CivitAI Textual Inversion Reference currently working. Cannot do more than 1 request at a time with the same Stable Horde Model Reference.")
+		push_warning("CivitAI Textual Inversion RefCounted currently working. Cannot do more than 1 request at a time with the same Stable Horde Model RefCounted.")
 		return
 	state = States.WORKING
 	var error = request(final_url, [], false, HTTPClient.METHOD_GET)

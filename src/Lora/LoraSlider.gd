@@ -2,11 +2,11 @@ extends HBoxContainer
 
 signal value_changed(value)
 
-export(String) var slider_name :String = "LoraSlider"
+@export var slider_name: String = "LoraSlider"
 
-onready var lora_slider_label = $"%LoraSliderLabel"
-onready var lora_slider = $"%LoraSlider"
-onready var lora_slider_value = $"%LoraSliderValue"
+@onready var lora_slider_label = $"%LoraSliderLabel"
+@onready var lora_slider = $"%LoraSlider"
+@onready var lora_slider_value = $"%LoraSliderValue"
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

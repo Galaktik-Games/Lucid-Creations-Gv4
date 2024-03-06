@@ -1,6 +1,6 @@
 extends TextureRect
 
-onready var tutorial = $"%Tutorial"
+@onready var tutorial = $"%Tutorial"
 
 func _ready():
 	texture = Utils.get_random_background()

@@ -21,66 +21,66 @@ var viewed_lora_index : int = 0
 var civitai_search_initiated = false
 var current_models := []
 
-onready var lora_auto_complete = $"%LoraAutoComplete"
-onready var stable_horde_models := $"%StableHordeModels"
-onready var lora_trigger_selection := $"%LoraTriggerSelection"
-onready var lora_info_card := $"%LoraInfoCard"
-onready var lora_info_label := $"%LoraInfoLabel"
-onready var civitai_showcase0 = $"%CivitAIShowcase0"
-onready var civitai_showcase1 = $"%CivitAIShowcase1"
-onready var lora_showcase0 = $"%LoraShowcase0"
-onready var lora_showcase1 = $"%LoraShowcase1"
-onready var selected_loras = $"%SelectedLoras"
-onready var show_all_loras = $"%ShowAllLoras"
-onready var lora_model_strength = $"%LoraModelStrength"
-onready var lora_clip_strength = $"%LoraClipStrength"
-onready var fetch_from_civitai = $"%FetchFromCivitAI"
-onready var lora_version_selection = $"%LoraVersionSelection"
+@onready var lora_auto_complete = $"%LoraAutoComplete"
+@onready var stable_horde_models := $"%StableHordeModels"
+@onready var lora_trigger_selection := $"%LoraTriggerSelection"
+@onready var lora_info_card := $"%LoraInfoCard"
+@onready var lora_info_label := $"%LoraInfoLabel"
+@onready var civitai_showcase0 = $"%CivitAIShowcase0"
+@onready var civitai_showcase1 = $"%CivitAIShowcase1"
+@onready var lora_showcase0 = $"%LoraShowcase0"
+@onready var lora_showcase1 = $"%LoraShowcase1"
+@onready var selected_loras = $"%SelectedLoras"
+@onready var show_all_loras = $"%ShowAllLoras"
+@onready var lora_model_strength = $"%LoraModelStrength"
+@onready var lora_clip_strength = $"%LoraClipStrength"
+@onready var fetch_from_civitai = $"%FetchFromCivitAI"
+@onready var lora_version_selection = $"%LoraVersionSelection"
 
 func _ready():
 	# warning-ignore:return_value_discarded
-	EventBus.connect("model_selected",self,"on_model_selection_changed")
+	EventBus.connect("model_selected", Callable(self, "on_model_selection_changed"))
 	# warning-ignore:return_value_discarded
-	EventBus.connect("cache_wipe_requested",self,"on_cache_wipe_requested")
+	EventBus.connect("cache_wipe_requested", Callable(self, "on_cache_wipe_requested"))
 	lora_reference_node = CivitAILoraReference.new()
 	lora_reference_node.nsfw = globals.config.get_value("Parameters", "nsfw")
 	# warning-ignore:return_value_discarded
-	lora_reference_node.connect("reference_retrieved",self, "_on_reference_retrieved")
+	lora_reference_node.connect("reference_retrieved", Callable(self, "_on_reference_retrieved"))
 	# warning-ignore:return_value_discarded
-	lora_reference_node.connect("cache_wiped",self, "_on_cache_wiped")
+	lora_reference_node.connect("cache_wiped", Callable(self, "_on_cache_wiped"))
 	add_child(lora_reference_node)
 	# warning-ignore:return_value_discarded
-	lora_auto_complete.connect("item_selected", self,"_on_lora_selected")
+	lora_auto_complete.connect("item_selected", Callable(self, "_on_lora_selected"))
 	# warning-ignore:return_value_discarded
-	lora_trigger_selection.connect("id_pressed", self,"_on_trigger_selection_id_pressed")
+	lora_trigger_selection.connect("id_pressed", Callable(self, "_on_trigger_selection_id_pressed"))
 	# warning-ignore:return_value_discarded
-	lora_version_selection.get_popup().connect("id_pressed", self, "_on_lora_version_selected")
+	lora_version_selection.get_popup().connect("id_pressed", Callable(self, "_on_lora_version_selected"))
 	# warning-ignore:return_value_discarded
-	civitai_showcase0.connect("showcase_retrieved",self, "_on_showcase0_retrieved")
+	civitai_showcase0.connect("showcase_retrieved", Callable(self, "_on_showcase0_retrieved"))
 	# warning-ignore:return_value_discarded
-	civitai_showcase1.connect("showcase_retrieved",self, "_on_showcase1_retrieved")
+	civitai_showcase1.connect("showcase_retrieved", Callable(self, "_on_showcase1_retrieved"))
 	# warning-ignore:return_value_discarded
-	civitai_showcase0.connect("showcase_failed",self, "_on_showcase0_failed")
+	civitai_showcase0.connect("showcase_failed", Callable(self, "_on_showcase0_failed"))
 	# warning-ignore:return_value_discarded
-	civitai_showcase1.connect("showcase_failed",self, "_on_showcase1_failed")
+	civitai_showcase1.connect("showcase_failed", Callable(self, "_on_showcase1_failed"))
 	# warning-ignore:return_value_discarded
-	selected_loras.connect("meta_clicked",self,"_on_selected_loras_meta_clicked")
+	selected_loras.connect("meta_clicked", Callable(self, "_on_selected_loras_meta_clicked"))
 	# warning-ignore:return_value_discarded
-	selected_loras.connect("meta_hover_started",self,"_on_selected_loras_meta_hover_started")
+	selected_loras.connect("meta_hover_started", Callable(self, "_on_selected_loras_meta_hover_started"))
 	# warning-ignore:return_value_discarded
-	selected_loras.connect("meta_hover_ended",self,"_on_selected_loras_meta_hover_ended")
+	selected_loras.connect("meta_hover_ended", Callable(self, "_on_selected_loras_meta_hover_ended"))
 	# warning-ignore:return_value_discarded
-	lora_info_label.connect("meta_clicked",self,"_on_lora_info_label_meta_clicked")
+	lora_info_label.connect("meta_clicked", Callable(self, "_on_lora_info_label_meta_clicked"))
 	# warning-ignore:return_value_discarded
-	show_all_loras.connect("pressed",self,"_on_show_all_loras_pressed")
+	show_all_loras.connect("pressed", Callable(self, "_on_show_all_loras_pressed"))
 	# warning-ignore:return_value_discarded
-	lora_info_card.connect("hide",self,"_on_lora_info_card_hide")
+	lora_info_card.connect("hide", Callable(self, "_on_lora_info_card_hide"))
 	# warning-ignore:return_value_discarded
-	lora_model_strength.connect("value_changed",self,"_on_lora_model_strength_value_changed")
+	lora_model_strength.connect("value_changed", Callable(self, "_on_lora_model_strength_value_changed"))
 	# warning-ignore:return_value_discarded
-	lora_clip_strength.connect("value_changed",self,"_on_lora_clip_strength_value_changed")
+	lora_clip_strength.connect("value_changed", Callable(self, "_on_lora_clip_strength_value_changed"))
 	# warning-ignore:return_value_discarded
-	fetch_from_civitai.connect("pressed",self,"_on_fetch_from_civitai_pressed")
+	fetch_from_civitai.connect("pressed", Callable(self, "_on_fetch_from_civitai_pressed"))
 	_on_reference_retrieved(lora_reference_node.lora_reference)
 	selected_loras_list = globals.config.get_value("Parameters", "loras", [])
 	update_selected_loras_label()
@@ -152,13 +152,13 @@ func update_lora_details_texts(lora_reference, version_id) -> void:
 	var label_text = "{unusable}[b]Name: {name}[/b]\nDescription: {description}\n".format(fmt)
 	label_text += "\nTriggers: {trigger}".format(fmt)
 	label_text += "\nCivitAI page: [url={url}]{url}[/url]".format(fmt)
-	lora_info_label.bbcode_text = label_text
+	lora_info_label.text = label_text
 	
 
 func _show_lora_details(version_id: String) -> void:
 	var lora_reference := lora_reference_node.get_lora_info(version_id, true)
-	if lora_reference.empty():
-		lora_info_label.bbcode_text = "No lora info could not be retrieved at this time."
+	if lora_reference.is_empty():
+		lora_info_label.text = "No lora info could not be retrieved at this time."
 	else:
 		civitai_showcase0.get_model_showcase(lora_reference, version_id)
 		civitai_showcase1.get_model_showcase(lora_reference, version_id)
@@ -168,9 +168,9 @@ func _show_lora_details(version_id: String) -> void:
 	for version in lora_reference['versions'].values():
 		lora_versions_popup.add_item(version['name'], int(version['id']))
 	lora_version_selection.text = lora_reference['versions'][version_id]['name']
-	lora_info_card.rect_size = Vector2(0,0)
+	lora_info_card.size = Vector2(0,0)
 	lora_info_card.popup()
-	lora_info_card.rect_global_position = get_global_mouse_position() + Vector2(30,-lora_info_card.rect_size.y/2)
+	lora_info_card.global_position = get_global_mouse_position() + Vector2(30,-lora_info_card.size.y/2)
 
 func _on_selected_loras_meta_clicked(meta) -> void:
 	var meta_split = meta.split(":")
@@ -244,7 +244,7 @@ func update_selected_loras_label() -> void:
 			"strengths": strengths_string,
 		}
 		bbtext.append(lora_text.format(lora_fmt))
-	selected_loras.bbcode_text = ", ".join(bbtext)
+	selected_loras.text = ", ".join(bbtext)
 	indexes_to_remove.invert()
 	for index in indexes_to_remove:
 		selected_loras_list.remove(index)
@@ -283,14 +283,14 @@ func _on_trigger_selection_id_pressed(id: int) -> void:
 
 func _on_showcase0_retrieved(img:ImageTexture, _model_name) -> void:
 	lora_showcase0.texture = img
-	lora_showcase0.rect_min_size = Vector2(300,300)
+	lora_showcase0.custom_minimum_size = Vector2(300,300)
 
 func _on_showcase0_failed() -> void:
 	lora_showcase0.texture = null
 
 func _on_showcase1_retrieved(img:ImageTexture, _model_name) -> void:
 	lora_showcase1.texture = img
-	lora_showcase1.rect_min_size = Vector2(300,300)
+	lora_showcase1.custom_minimum_size = Vector2(300,300)
 
 func _on_showcase1_failed() -> void:
 	lora_showcase1.texture = null

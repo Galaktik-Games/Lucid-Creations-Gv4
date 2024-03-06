@@ -4,14 +4,14 @@ extends StableHordeHTTPRequest
 signal reference_retrieved(models_list)
 signal cache_wiped
 
-export(String) var loras_refence_url := "https://civitai.com/api/v1/models?types=LORA&sort=Highest%20Rated&primaryFileOnly=true&limit=100"
-export(String) var horde_default_loras := "https://raw.githubusercontent.com/Haidra-Org/AI-Horde-image-model-reference/main/lora.json"
+@export var loras_refence_url := "https://civitai.com/api/v1/models?types=LORA&sort=Highest%20Rated&primaryFileOnly=true&limit=100"
+@export var horde_default_loras := "https://raw.githubusercontent.com/Haidra-Org/AI-Horde-image-model-reference/main/lora.json"
 
 
 var lora_reference := {}
 var lora_id_index := {}
 var models_retrieved = false
-var nsfw = true setget set_nsfw
+var nsfw = true: set = set_nsfw
 var initialized := false
 var default_ids : Array
 
@@ -28,7 +28,7 @@ func _ready() -> void:
 
 func get_lora_reference() -> void:
 	if state != States.READY:
-		push_warning("CivitAI Lora Reference currently working. Cannot do more than 1 request at a time with the same Stable Horde Model Reference.")
+		push_warning("CivitAI Lora RefCounted currently working. Cannot do more than 1 request at a time with the same Stable Horde Model RefCounted.")
 		return
 	state = States.WORKING
 	var error = request(horde_default_loras, [], false, HTTPClient.METHOD_GET)
@@ -43,7 +43,7 @@ func _get_url(query) -> String:
 	if typeof(query) == TYPE_ARRAY:
 		var idsq = '&ids='.join(query)
 		final_url = "https://civitai.com/api/v1/models?limit=100&" + idsq
-	elif query.is_valid_integer():
+	elif query.is_valid_int():
 		final_url = "https://civitai.com/api/v1/models/" + query
 	# This refreshes the information of the top models
 	elif query == '':
@@ -69,8 +69,8 @@ func fetch_next_page(json_ret: Dictionary) -> void:
 
 func fetch_lora_metadata(query) -> void:
 	var new_fetch = CivitAIModelFetch.new()
-	new_fetch.connect("lora_info_retrieved",self,"_on_lora_info_retrieved")
-	new_fetch.connect("lora_info_gathering_finished",self,"_on_lora_info_gathering_finished", [new_fetch])
+	new_fetch.connect("lora_info_retrieved", Callable(self, "_on_lora_info_retrieved"))
+	new_fetch.connect("lora_info_gathering_finished", Callable(self, "_on_lora_info_gathering_finished").bind(new_fetch))
 	new_fetch.default_ids = default_ids
 	add_child(new_fetch)
 	new_fetch.fetch_metadata(_get_url(query))
@@ -199,7 +199,7 @@ func _store_lora(lora_data: Dictionary) -> void:
 		lora_id_index[version_id] = lora_name
 
 func wipe_cache() -> void:
-	var dir = Directory.new()
+	var dir = DirAccess.new()
 	dir.remove("user://civitai_lora_reference")
 	emit_signal("cache_wiped")
 	lora_reference = {}

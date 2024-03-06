@@ -2,7 +2,7 @@ extends Button
 
 signal gensettings_loaded(settings)
 
-onready var load_from_disk_native_dialog_open_file = $"%LoadFromDiskNativeDialogOpenFile"
+@onready var load_from_disk_native_dialog_open_file = $"%LoadFromDiskNativeDialogOpenFile"
 
 func _ready():
 	load_from_disk_native_dialog_open_file.initial_path = globals.config.get_value("Options", "load_initial_path", "user://")
@@ -19,7 +19,9 @@ func _on_LoadFromDiskNativeDialogOpenFile_files_selected(files: Array):
 	globals.set_setting("load_initial_path", filename.get_base_dir() + '/', "Options")
 	load_from_disk_native_dialog_open_file.initial_path = filename.get_base_dir() + '/'
 	file.open(filename, File.READ)
-	var data = JSON.parse(file.get_as_text())
+	var test_json_conv = JSON.new()
+	test_json_conv.parse(file.get_as_text())
+	var data = test_json_conv.get_data()
 	file.close()
 	emit_signal("gensettings_loaded", data.result)
 

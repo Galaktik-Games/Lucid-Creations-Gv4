@@ -2,12 +2,12 @@ extends HBoxContainer
 
 signal value_changed(value)
 
-onready var ti_inject_button := $"%TIInjectButton"
-onready var ti_inject_label = $"%TIInjectLabel"
+@onready var ti_inject_button := $"%TIInjectButton"
+@onready var ti_inject_label = $"%TIInjectLabel"
 
 func _ready():
 	var popup = ti_inject_button.get_popup()
-	popup.connect("index_pressed", self, "on_index_pressed")
+	popup.connect("index_pressed", Callable(self, "on_index_pressed"))
 
 func on_index_pressed(index) -> void:
 	match index:

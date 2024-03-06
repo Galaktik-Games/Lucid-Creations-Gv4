@@ -1,19 +1,19 @@
 [gd_resource type="Theme" load_steps=43 format=2]
 
-[ext_resource path="res://theme/fonts/noto/type/type_body.tres" type="DynamicFont" id=1]
-[ext_resource path="res://theme/components/dark/texture/x_focus.png" type="Texture" id=2]
-[ext_resource path="res://theme/components/dark/texture/x_highlight.png" type="Texture" id=3]
-[ext_resource path="res://theme/components/dark/texture/grab_v.png" type="Texture" id=4]
-[ext_resource path="res://theme/components/dark/texture/radio_empty.png" type="Texture" id=5]
-[ext_resource path="res://theme/components/dark/texture/radio_fill.png" type="Texture" id=6]
-[ext_resource path="res://theme/components/dark/texture/check_box_empty.png" type="Texture" id=7]
-[ext_resource path="res://theme/components/dark/texture/check_box_fill.png" type="Texture" id=8]
-[ext_resource path="res://theme/components/dark/texture/check_radio_fill.png" type="Texture" id=9]
+[ext_resource path="res://theme/fonts/noto/type/type_body.tres" type="FontFile" id=1]
+[ext_resource path="res://theme/components/dark/texture/x_focus.png" type="Texture2D" id=2]
+[ext_resource path="res://theme/components/dark/texture/x_highlight.png" type="Texture2D" id=3]
+[ext_resource path="res://theme/components/dark/texture/grab_v.png" type="Texture2D" id=4]
+[ext_resource path="res://theme/components/dark/texture/radio_empty.png" type="Texture2D" id=5]
+[ext_resource path="res://theme/components/dark/texture/radio_fill.png" type="Texture2D" id=6]
+[ext_resource path="res://theme/components/dark/texture/check_box_empty.png" type="Texture2D" id=7]
+[ext_resource path="res://theme/components/dark/texture/check_box_fill.png" type="Texture2D" id=8]
+[ext_resource path="res://theme/components/dark/texture/check_radio_fill.png" type="Texture2D" id=9]
 [ext_resource path="res://theme/components/dark/medium_accent_0.tres" type="StyleBox" id=10]
 [ext_resource path="res://theme/components/dark/style_window.tres" type="StyleBox" id=11]
 [ext_resource path="res://theme/components/dark/style_focus.tres" type="StyleBox" id=12]
 [ext_resource path="res://theme/components/dark/small_normal_0.tres" type="StyleBox" id=13]
-[ext_resource path="res://theme/components/dark/texture/check_radio_empty.png" type="Texture" id=14]
+[ext_resource path="res://theme/components/dark/texture/check_radio_empty.png" type="Texture2D" id=14]
 [ext_resource path="res://theme/components/dark/small_normal_2.tres" type="StyleBox" id=15]
 [ext_resource path="res://theme/components/dark/medium_normal_1.tres" type="StyleBox" id=16]
 [ext_resource path="res://theme/components/dark/small_accent_0.tres" type="StyleBox" id=17]
@@ -23,18 +23,18 @@
 [ext_resource path="res://theme/components/dark/small_bright_1.tres" type="StyleBox" id=21]
 [ext_resource path="res://theme/components/dark/small_normal_1.tres" type="StyleBox" id=22]
 [ext_resource path="res://theme/components/dark/small_primary_0.tres" type="StyleBox" id=23]
-[ext_resource path="res://theme/fonts/noto/type/type_body_large.tres" type="DynamicFont" id=24]
+[ext_resource path="res://theme/fonts/noto/type/type_body_large.tres" type="FontFile" id=24]
 [ext_resource path="res://theme/components/dark/small_bright_2.tres" type="StyleBox" id=25]
-[ext_resource path="res://theme/components/dark/texture/grab_h.png" type="Texture" id=26]
-[ext_resource path="res://theme/components/dark/texture/blank.tres" type="Texture" id=27]
-[ext_resource path="res://theme/fonts/noto/type/type_body_strong.tres" type="DynamicFont" id=28]
+[ext_resource path="res://theme/components/dark/texture/grab_h.png" type="Texture2D" id=26]
+[ext_resource path="res://theme/components/dark/texture/blank.tres" type="Texture2D" id=27]
+[ext_resource path="res://theme/fonts/noto/type/type_body_strong.tres" type="FontFile" id=28]
 [ext_resource path="res://theme/components/dark/medium_bright_0.tres" type="StyleBox" id=29]
 
 [sub_resource type="ImageTexture" id=7]
 
 [sub_resource type="Image" id=44]
 data = {
-"data": PoolByteArray( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 58, 58, 58, 0, 180, 180, 180, 4, 246, 246, 246, 29, 184, 184, 184, 7, 62, 62, 62, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 58, 58, 58, 0, 237, 237, 237, 47, 248, 248, 248, 170, 248, 248, 248, 186, 248, 248, 248, 179, 247, 247, 247, 68, 60, 60, 60, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 179, 179, 179, 4, 248, 248, 248, 170, 248, 248, 248, 186, 248, 248, 248, 186, 248, 248, 248, 186, 248, 248, 248, 181, 240, 240, 240, 21, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 246, 246, 246, 28, 248, 248, 248, 186, 248, 248, 248, 186, 248, 248, 248, 186, 248, 248, 248, 186, 248, 248, 248, 186, 248, 248, 248, 58, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 184, 184, 184, 6, 248, 248, 248, 178, 248, 248, 248, 186, 248, 248, 248, 186, 248, 248, 248, 186, 248, 248, 248, 185, 246, 246, 246, 29, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 62, 62, 62, 0, 247, 247, 247, 69, 248, 248, 248, 181, 248, 248, 248, 186, 248, 248, 248, 185, 228, 228, 228, 94, 104, 104, 104, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 60, 60, 60, 0, 240, 240, 240, 22, 248, 248, 248, 59, 247, 247, 247, 30, 104, 104, 104, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ),
+"data": PackedByteArray( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 58, 58, 58, 0, 180, 180, 180, 4, 246, 246, 246, 29, 184, 184, 184, 7, 62, 62, 62, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 58, 58, 58, 0, 237, 237, 237, 47, 248, 248, 248, 170, 248, 248, 248, 186, 248, 248, 248, 179, 247, 247, 247, 68, 60, 60, 60, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 179, 179, 179, 4, 248, 248, 248, 170, 248, 248, 248, 186, 248, 248, 248, 186, 248, 248, 248, 186, 248, 248, 248, 181, 240, 240, 240, 21, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 246, 246, 246, 28, 248, 248, 248, 186, 248, 248, 248, 186, 248, 248, 248, 186, 248, 248, 248, 186, 248, 248, 248, 186, 248, 248, 248, 58, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 184, 184, 184, 6, 248, 248, 248, 178, 248, 248, 248, 186, 248, 248, 248, 186, 248, 248, 248, 186, 248, 248, 248, 185, 246, 246, 246, 29, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 62, 62, 62, 0, 247, 247, 247, 69, 248, 248, 248, 181, 248, 248, 248, 186, 248, 248, 248, 185, 228, 228, 228, 94, 104, 104, 104, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 60, 60, 60, 0, 240, 240, 240, 22, 248, 248, 248, 59, 247, 247, 247, 30, 104, 104, 104, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ),
 "format": "RGBA8",
 "height": 11,
 "mipmaps": false,
@@ -67,7 +67,7 @@ margin_bottom = 4.65
 
 [sub_resource type="Image" id=45]
 data = {
-"data": PoolByteArray( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 191, 191, 191, 1, 255, 255, 255, 5, 191, 191, 191, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 191, 191, 191, 1, 255, 255, 255, 17, 255, 255, 255, 21, 255, 255, 255, 19, 191, 191, 191, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 5, 255, 255, 255, 21, 255, 255, 255, 21, 255, 255, 255, 21, 255, 255, 255, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 191, 191, 191, 1, 255, 255, 255, 19, 255, 255, 255, 21, 255, 255, 255, 20, 255, 255, 255, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 191, 191, 191, 2, 255, 255, 255, 8, 255, 255, 255, 3, 64, 64, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ),
+"data": PackedByteArray( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 191, 191, 191, 1, 255, 255, 255, 5, 191, 191, 191, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 191, 191, 191, 1, 255, 255, 255, 17, 255, 255, 255, 21, 255, 255, 255, 19, 191, 191, 191, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 5, 255, 255, 255, 21, 255, 255, 255, 21, 255, 255, 255, 21, 255, 255, 255, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 191, 191, 191, 1, 255, 255, 255, 19, 255, 255, 255, 21, 255, 255, 255, 20, 255, 255, 255, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 191, 191, 191, 2, 255, 255, 255, 8, 255, 255, 255, 3, 64, 64, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ),
 "format": "RGBA8",
 "height": 11,
 "mipmaps": false,
@@ -85,7 +85,7 @@ modulate_color = Color( 1, 1, 1, 0.392157 )
 
 [sub_resource type="StyleBoxEmpty" id=35]
 
-[sub_resource type="BitmapFont" id=6]
+[sub_resource type="FontFile" id=6]
 
 [sub_resource type="StyleBoxFlat" id=2]
 bg_color = Color( 1, 1, 1, 0.309804 )
@@ -181,7 +181,7 @@ Panel/styles/panel = ExtResource( 19 )
 PanelContainer/styles/panel = ExtResource( 19 )
 PanelContainerSB/base_type = "PanelContainer"
 PanelContainerSB/styles/panel = ExtResource( 29 )
-PopupDialog/styles/panel = ExtResource( 19 )
+Popup/styles/panel = ExtResource( 19 )
 PopupMenu/icons/checked = ExtResource( 8 )
 PopupMenu/icons/radio_checked = ExtResource( 9 )
 PopupMenu/icons/radio_unchecked = ExtResource( 14 )
@@ -198,7 +198,7 @@ TabContainer/styles/panel = ExtResource( 19 )
 TabContainer/styles/tab_bg = ExtResource( 16 )
 TabContainer/styles/tab_disabled = ExtResource( 19 )
 TabContainer/styles/tab_fg = ExtResource( 10 )
-Tabs/styles/button = ExtResource( 18 )
+TabBar/styles/button = ExtResource( 18 )
 TextEdit/styles/focus = ExtResource( 12 )
 TextEdit/styles/normal = ExtResource( 22 )
 TextEdit/styles/read_only = ExtResource( 15 )
@@ -243,12 +243,12 @@ VSplitContainer/constants/autohide = 0
 VSplitContainer/constants/separation = 10
 VSplitContainer/icons/grabber = ExtResource( 4 )
 VSplitContainer/styles/bg = SubResource( 30 )
-WindowDialog/colors/title_color = Color( 0.52, 0.52, 0.52, 0.87451 )
-WindowDialog/constants/close_h_ofs = 26
-WindowDialog/constants/close_v_ofs = 18
-WindowDialog/constants/scaleborder_size = 8
-WindowDialog/constants/title_height = 20
-WindowDialog/fonts/title_font = ExtResource( 28 )
-WindowDialog/icons/close = ExtResource( 3 )
-WindowDialog/icons/close_highlight = ExtResource( 2 )
-WindowDialog/styles/panel = ExtResource( 11 )
+Window/colors/title_color = Color( 0.52, 0.52, 0.52, 0.87451 )
+Window/constants/close_h_ofs = 26
+Window/constants/close_v_ofs = 18
+Window/constants/scaleborder_size = 8
+Window/constants/title_height = 20
+Window/fonts/title_font = ExtResource( 28 )
+Window/icons/close = ExtResource( 3 )
+Window/icons/close_highlight = ExtResource( 2 )
+Window/styles/panel = ExtResource( 11 )

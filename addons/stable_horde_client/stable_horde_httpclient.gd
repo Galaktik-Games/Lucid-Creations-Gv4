@@ -11,14 +11,14 @@ enum States {
 	CANCELLING
 }
 # When set to true, we will abort the current generation and try to retrieve whatever images we can
-export(String) var aihorde_url = "https://aihorde.net"
-export(String) var client_agent = "AI Horde Godot Addon:2.7.0:db0#1625"
+@export var aihorde_url: String = "https://aihorde.net"
+@export var client_agent: String = "AI Horde Godot Addon:2.7.0:db0#1625"
 var state : int = States.READY
 var service_name :String = "AI Horde"
 
 func _ready():
 	# warning-ignore:return_value_discarded
-	connect("request_completed",self,"_on_request_completed")
+	connect("request_completed", Callable(self, "_on_request_completed"))
 
 # warning-ignore:unused_argument
 func _on_request_completed(_result, response_code, _headers, body):
@@ -34,7 +34,9 @@ func _on_request_completed(_result, response_code, _headers, body):
 			emit_signal("request_failed",error_msg)
 			state = States.READY
 			return
-	var json_ret = parse_json(body.get_string_from_utf8())
+	var test_json_conv = JSON.new()
+	test_json_conv.parse(body.get_string_from_utf8())
+	var json_ret = test_json_conv.get_data()
 	var json_error = json_ret
 	if typeof(json_ret) == TYPE_DICTIONARY and json_ret.has('message'):
 		json_error = str(json_ret['message'])

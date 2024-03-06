@@ -10,7 +10,7 @@ var model_name: String
 func _ready():
 	# warning-ignore:return_value_discarded
 	timeout = 2
-	connect("request_completed",self,"_on_request_completed")
+	connect("request_completed", Callable(self, "_on_request_completed"))
 
 func get_model_showcase(_model_reference) -> void:
 	model_reference = _model_reference

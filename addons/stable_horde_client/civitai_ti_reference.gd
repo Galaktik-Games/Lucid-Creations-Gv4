@@ -4,13 +4,13 @@ extends StableHordeHTTPRequest
 signal reference_retrieved(models_list)
 signal cache_wiped
 
-export(String) var tis_refence_url := "https://civitai.com/api/v1/models?types=TextualInversion&sort=Highest%20Rated&primaryFileOnly=true&limit=100"
+@export var tis_refence_url := "https://civitai.com/api/v1/models?types=TextualInversion&sort=Highest%20Rated&primaryFileOnly=true&limit=100"
 
 
 var ti_reference := {}
 var ti_id_index := {}
 var models_retrieved = false
-var nsfw = true setget set_nsfw
+var nsfw = true: set = set_nsfw
 var initialized := false
 var default_ids : Array
 
@@ -28,7 +28,7 @@ func _get_url(query) -> String:
 	if typeof(query) == TYPE_ARRAY:
 		var idsq = '&ids='.join(query)
 		final_url = "https://civitai.com/api/v1/models?limit=100&" + idsq
-	elif query.is_valid_integer():
+	elif query.is_valid_int():
 		final_url = "https://civitai.com/api/v1/models/" + query
 #	elif query == '':
 #		initialized = false
@@ -51,8 +51,8 @@ func fetch_next_page(json_ret: Dictionary) -> void:
 
 func fetch_ti_metadata(query) -> void:
 	var new_fetch = CivitAITextualInversionModelFetch.new()
-	new_fetch.connect("ti_info_retrieved",self,"_on_ti_info_retrieved")
-	new_fetch.connect("ti_info_gathering_finished",self,"_on_ti_info_gathering_finished", [new_fetch])
+	new_fetch.connect("ti_info_retrieved", Callable(self, "_on_ti_info_retrieved"))
+	new_fetch.connect("ti_info_gathering_finished", Callable(self, "_on_ti_info_gathering_finished").bind(new_fetch))
 	new_fetch.default_ids = default_ids
 	add_child(new_fetch)
 	new_fetch.fetch_metadata(_get_url(query))
@@ -217,7 +217,7 @@ func _store_ti(ti_data: Dictionary) -> void:
 	ti_id_index[int(ti_data["id"])] = ti_name
 
 func wipe_cache() -> void:
-	var dir = Directory.new()
+	var dir = DirAccess.new()
 	dir.remove("user://civitai_ti_reference")
 	emit_signal("cache_wiped")
 	ti_reference = {}

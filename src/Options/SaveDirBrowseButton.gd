@@ -2,7 +2,7 @@ extends Button
 
 signal savedir_path_set(path)
 
-onready var save_dir_browse_native_dialog_select_folder = $"%SaveDirBrowseNativeDialogSelectFolder"
+@onready var save_dir_browse_native_dialog_select_folder = $"%SaveDirBrowseNativeDialogSelectFolder"
 
 
 func _ready():

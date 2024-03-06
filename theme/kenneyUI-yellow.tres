@@ -1,10 +1,10 @@
 [gd_resource type="Theme" load_steps=34 format=2]
 
-[ext_resource path="res://theme/UIpack_vector.svg" type="Texture" id=1]
-[ext_resource path="res://theme/fonts/claris_sans/clarissans.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://theme/UIpack_vector.svg" type="Texture2D" id=1]
+[ext_resource path="res://theme/fonts/claris_sans/clarissans.ttf" type="FontFile" id=2]
 
 
-[sub_resource type="DynamicFont" id=31]
+[sub_resource type="FontFile" id=31]
 use_mipmaps = true
 use_filter = true
 font_data = ExtResource( 2 )
