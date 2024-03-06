@@ -130,7 +130,7 @@ func setup(
 	tis_node = _tis_node
 	for le_node in [prompt_node, negprompt_node, gen_seed_node, api_key_node]:
 		# warning-ignore:return_value_discarded
-		le_node.connect("text_changed", self, "_on_line_edit_changed", [le_node])
+		le_node.connect("text_changed", Callable(self, "_on_line_edit_changed").bind(le_node))
 	for slider in [
 		amount_node,
 		width_node,
@@ -141,7 +141,7 @@ func setup(
 		denoising_strength_node
 	]:
 		# warning-ignore:return_value_discarded
-		slider.connect("value_changed", self, "_on_hslider_changed", [slider])
+		slider.connect("value_changed", Callable(self, "_on_hslider_changed").bind(slider))
 	for cbutton in [
 		karras_node,
 		hires_fix_node,
@@ -151,19 +151,19 @@ func setup(
 		img2img_node,
 		shared_node
 	]:
-		cbutton.connect("pressed", self, "_on_cbutton_changed", [cbutton])
+		cbutton.connect("pressed", Callable(self, "_on_cbutton_changed").bind(cbutton))
 	# warning-ignore:return_value_discarded
-	post_processing_node.connect("pp_modified",self,"_on_listnode_changed", [post_processing_node])
+	post_processing_node.connect("pp_modified", Callable(self, "_on_listnode_changed").bind(post_processing_node))
 	# warning-ignore:return_value_discarded
-	models_node.connect("model_modified",self,"_on_listnode_changed", [models_node])
+	models_node.connect("model_modified", Callable(self, "_on_listnode_changed").bind(models_node))
 	# warning-ignore:return_value_discarded
-	loras_node.connect("loras_modified",self,"_on_listnode_changed", [loras_node])
-	tis_node.connect("tis_modified",self,"_on_listnode_changed", [tis_node])
+	loras_node.connect("loras_modified", Callable(self, "_on_listnode_changed").bind(loras_node))
+	tis_node.connect("tis_modified", Callable(self, "_on_listnode_changed").bind(tis_node))
 	for obutton in [
 		control_type_node,
 		sampler_name_node,
 	]:
-		obutton.connect("item_selected",self,"_on_option_changed", [obutton])
+		obutton.connect("item_selected", Callable(self, "_on_option_changed").bind(obutton))
 	
 
 func get_prompt() -> String:
@@ -206,19 +206,19 @@ func get_post_processing() -> Array:
 	return post_processing_node.selected_pp
 
 func get_karras() -> bool:
-	return karras_node.pressed
+	return karras_node.button_pressed
 
 func get_hires_fix() -> bool:
-	return hires_fix_node.pressed
+	return hires_fix_node.button_pressed
 
 func get_nsfw() -> bool:
-	return nsfw_node.pressed
+	return nsfw_node.button_pressed
 
 func get_censor_nsfw() -> bool:
-	return censor_nsfw_node.pressed
+	return censor_nsfw_node.button_pressed
 
 func get_trusted_workers() -> bool:
-	return trusted_workers_node.pressed
+	return trusted_workers_node.button_pressed
 
 func get_models() -> Array:
 	return models_node.selected_models_list
@@ -229,7 +229,7 @@ func get_source_image() -> Image:
 	return null
 
 func get_shared() -> bool:
-	return shared_node.pressed
+	return shared_node.button_pressed
 
 func get_control_type() -> String:
 	if img2img_node.pressed:

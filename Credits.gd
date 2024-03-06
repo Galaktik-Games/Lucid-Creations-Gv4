@@ -7,7 +7,7 @@ UI: [url=illlustr]illlustr[/url]
 """
 
 func _ready():
-	bbcode_text = TEXT
+	text = TEXT
 
 
 func _on_Credits_meta_clicked(meta):

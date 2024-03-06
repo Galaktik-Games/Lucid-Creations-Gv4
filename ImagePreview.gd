@@ -14,7 +14,6 @@ func load_image_from_path(path: String) -> bool:
 		var error_msg := "Couldn't load the image."
 		push_error(error_msg)
 		return false
-	var image_texture = ImageTexture.new();
-	image_texture.create_from_image(source_image)
+	var image_texture = ImageTexture.create_from_image(source_image)
 	texture = image_texture
 	return true

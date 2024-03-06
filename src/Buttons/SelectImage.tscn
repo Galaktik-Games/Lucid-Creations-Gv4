@@ -6,9 +6,9 @@
 [node name="SelectImage" type="Button"]
 unique_name_in_owner = true
 visible = false
-margin_top = 80.0
-margin_right = 300.0
-margin_bottom = 121.251
+offset_top = 80.0
+offset_right = 300.0
+offset_bottom = 121.251
 text = "Select Image"
 script = ExtResource( 2 )
 
@@ -17,7 +17,7 @@ unique_name_in_owner = true
 script = ExtResource( 1 )
 title = "Select image for img2img"
 initial_path = "user://"
-filters = PoolStringArray( "*.png, *.webp, *.jpg, *.jpeg ; Image Files" )
+filters = PackedStringArray( "*.png, *.webp, *.jpg, *.jpeg ; Image Files" )
 
 [connection signal="pressed" from="." to="." method="_on_SelectImage_pressed"]
 [connection signal="files_selected" from="SelectImageNativeDialogOpenFile" to="." method="_on_SelectImageNativeDialogOpenFile_files_selected"]

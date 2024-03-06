@@ -1,16 +1,18 @@
 class_name CivitAITIReference
 extends StableHordeHTTPRequest
 
+
+
 signal reference_retrieved(models_list)
 signal cache_wiped
 
-export(String) var tis_refence_url := "https://civitai.com/api/v1/models?types=TextualInversion&sort=Highest%20Rated&primaryFileOnly=true&limit=100"
+@export var tis_refence_url := "https://civitai.com/api/v1/models?types=TextualInversion&sort=Highest%20Rated&primaryFileOnly=true&limit=100"
 
 
 var ti_reference := {}
 var ti_id_index := {}
 var models_retrieved = false
-var nsfw = true setget set_nsfw
+var nsfw = true: set = set_nsfw
 var initialized := false
 var default_ids : Array
 
@@ -28,7 +30,7 @@ func _get_url(query) -> String:
 	if typeof(query) == TYPE_ARRAY:
 		var idsq = '&ids='.join(query)
 		final_url = "https://civitai.com/api/v1/models?limit=100&" + idsq
-	elif query.is_valid_integer():
+	elif query.is_valid_int():
 		final_url = "https://civitai.com/api/v1/models/" + query
 #	elif query == '':
 #		initialized = false
@@ -43,7 +45,7 @@ func seek_online(query: String) -> void:
 
 func fetch_next_page(json_ret: Dictionary) -> void:
 	var next_page_url = json_ret["metadata"]["nextPage"]
-	var error = request(next_page_url, [], false, HTTPClient.METHOD_GET)
+	var error = request(next_page_url, [], HTTPClient.METHOD_GET)
 	if error != OK:
 		var error_msg := "Something went wrong when initiating the request"
 		push_error(error_msg)
@@ -51,8 +53,8 @@ func fetch_next_page(json_ret: Dictionary) -> void:
 
 func fetch_ti_metadata(query) -> void:
 	var new_fetch = CivitAITextualInversionModelFetch.new()
-	new_fetch.connect("ti_info_retrieved",self,"_on_ti_info_retrieved")
-	new_fetch.connect("ti_info_gathering_finished",self,"_on_ti_info_gathering_finished", [new_fetch])
+	new_fetch.connect("ti_info_retrieved", Callable(self, "_on_ti_info_retrieved"))
+	new_fetch.connect("ti_info_gathering_finished", Callable(self, "_on_ti_info_gathering_finished").bind(new_fetch))
 	new_fetch.default_ids = default_ids
 	add_child(new_fetch)
 	new_fetch.fetch_metadata(_get_url(query))
@@ -113,26 +115,27 @@ func get_ti_name(ti_name: String) -> String:
 	return ti_reference.get(ti_name, {}).get("name", 'N/A')
 
 func _store_to_file() -> void:
-	var file = File.new()
-	file.open("user://civitai_ti_reference", File.WRITE)
+	var file = FileAccess.open("user://civitai_ti_reference", FileAccess.WRITE)
 	file.store_var(ti_reference)
 	file.close()
 
 func _load_from_file() -> void:
-	var file = File.new()
-	file.open("user://civitai_ti_reference", File.READ)
-	var filevar = file.get_var()
-	if filevar:
-		ti_reference = filevar
-	for ti in ti_reference.values():
-		ti_id_index[int(ti["id"])] = ti["name"]
-		ti["cached"] = true
-		# Temporary while changing approach
-		var unusable = ti.get("unusable", false)
-		if typeof(unusable) == TYPE_BOOL and unusable == false:
-			ti["unusable"] = 'Attention! This Textual Inversion is unusable because it does not provide file validation.'
-		elif typeof(unusable) == TYPE_BOOL:
-			ti["unusable"] = ''
+	var file = FileAccess.open("user://civitai_ti_reference", FileAccess.READ)
+	if !file:
+		return
+	else:	
+		var filevar = file.get_var()
+		if filevar:
+			ti_reference = filevar
+		for ti in ti_reference.values():
+			ti_id_index[int(ti["id"])] = ti["name"]
+			ti["cached"] = true
+			# Temporary while changing approach
+			var unusable = ti.get("unusable", false)
+			if typeof(unusable) == TYPE_BOOL and unusable == false:
+				ti["unusable"] = 'Attention! This Textual Inversion is unusable because it does not provide file validation.'
+			elif typeof(unusable) == TYPE_BOOL:
+				ti["unusable"] = ''
 	file.close()
 	emit_signal("reference_retrieved", ti_reference)
 
@@ -217,7 +220,7 @@ func _store_ti(ti_data: Dictionary) -> void:
 	ti_id_index[int(ti_data["id"])] = ti_name
 
 func wipe_cache() -> void:
-	var dir = Directory.new()
+	var dir = DirAccess.open("user://civitai_ti_reference")
 	dir.remove("user://civitai_ti_reference")
 	emit_signal("cache_wiped")
 	ti_reference = {}

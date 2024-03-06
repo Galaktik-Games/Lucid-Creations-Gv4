@@ -7,40 +7,40 @@ signal model_modified(models_list)
 var selected_models_list : Array = []
 var model_refresh: float
 
-onready var model_auto_complete = $"%ModelAutoComplete"
-onready var selected_models = $"%SelectedModels"
-onready var show_all_models = $"%ShowAllModels"
+@onready var model_auto_complete = $"%ModelAutoComplete"
+@onready var selected_models = $"%SelectedModels"
+@onready var show_all_models = $"%ShowAllModels"
 
-onready var model_select = $"%ModelSelect"
-onready var stable_horde_models := $"%StableHordeModels"
-onready var trigger_selection := $"%TriggerSelection"
-onready var model_info_card := $"%ModelInfoCard"
-onready var model_info_label := $"%ModelInfoLabel"
-onready var popup_info := $"%PopupInfo"
-onready var popup_info_label := $"%PopupInfoLabel"
-onready var stable_horde_model_showcase = $"%StableHordeModelShowcase"
-onready var model_showcase = $"%ModelShowcase"
+@onready var model_select = $"%ModelSelect"
+@onready var stable_horde_models := $"%StableHordeModels"
+@onready var trigger_selection := $"%TriggerSelection"
+@onready var model_info_card := $"%ModelInfoCard"
+@onready var model_info_label := $"%ModelInfoLabel"
+@onready var popup_info := $"%PopupInfo"
+@onready var popup_info_label := $"%PopupInfoLabel"
+@onready var stable_horde_model_showcase = $"%StableHordeModelShowcase"
+@onready var model_showcase = $"%ModelShowcase"
 
 
 func _ready():
 	# warning-ignore:return_value_discarded
-	stable_horde_models.connect("models_retrieved",self, "_on_models_retrieved")
+	stable_horde_models.connect("models_retrieved", Callable(self, "_on_models_retrieved"))
 	# warning-ignore:return_value_discarded
-	trigger_selection.connect("id_pressed", self,"_on_trigger_selection_id_pressed")
+	trigger_selection.connect("id_pressed", Callable(self, "_on_trigger_selection_id_pressed"))
 	# warning-ignore:return_value_discarded
-	model_auto_complete.connect("item_selected", self,"_on_model_selected")
+	model_auto_complete.connect("item_selected", Callable(self, "_on_model_selected"))
 
-	stable_horde_model_showcase.connect("showcase_retrieved",self, "_on_showcase_retrieved")
+	stable_horde_model_showcase.connect("showcase_retrieved", Callable(self, "_on_showcase_retrieved"))
 	
-	selected_models.connect("meta_clicked",self,"_on_selected_models_meta_clicked")
-	selected_models.connect("meta_hover_started",self,"_on_selected_models_meta_hover_started")
-	selected_models.connect("meta_hover_ended",self,"_on_selected_models_meta_hover_ended")
-	model_info_label.connect("meta_clicked",self,"_on_model_info_models_meta_clicked")
-	show_all_models.connect("pressed",self,"_on_show_all_models_pressed")
+	selected_models.connect("meta_clicked", Callable(self, "_on_selected_models_meta_clicked"))
+	selected_models.connect("meta_hover_started", Callable(self, "_on_selected_models_meta_hover_started"))
+	selected_models.connect("meta_hover_ended", Callable(self, "_on_selected_models_meta_hover_ended"))
+	model_info_label.connect("meta_clicked", Callable(self, "_on_model_info_models_meta_clicked"))
+	show_all_models.connect("pressed", Callable(self, "_on_show_all_models_pressed"))
 # warning-ignore:return_value_discarded
-	model_info_card.connect("hide",self,"_on_models_info_card_hide")
+	model_info_card.connect("hide", Callable(self, "_on_models_info_card_hide"))
 	stable_horde_models.emit_models_retrieved()
-	yield(get_tree().create_timer(0.2), "timeout")
+	await get_tree().create_timer(0.2).timeout
 	selected_models_list = globals.config.get_value("Parameters", "models", [])
 	_update_selected_models_label()
 	_emit_selected_models()
@@ -86,13 +86,13 @@ func _on_request_initiated():
 
 func _show_model_details(model_name: String) -> void:
 	if model_name == "Any model":
-		model_info_label.bbcode_text = """This option will cause each image in your request to be fulfilled by workers running any model.
+		model_info_label.text = """This option will cause each image in your request to be fulfilled by workers running any model.
 As such, the result tend to be quite random as the image can be sent to something specialized which requires more specific triggers."""
 	else:
 		var model_reference := get_model_reference(model_name)
 		stable_horde_model_showcase.get_model_showcase(model_reference)
-		if model_reference.empty():
-			model_info_label.bbcode_text = "No model info could not be retrieved at this time."
+		if model_reference.is_empty():
+			model_info_label.text = "No model info could not be retrieved at this time."
 		else:
 			var perf = _get_model_performance(model_name)
 			var fmt = {
@@ -111,10 +111,10 @@ As such, the result tend to be quite random as the image can be sent to somethin
 				label_text += "\nTrigger token(s): {trigger}".format(fmt)
 			if fmt['homepage']:
 				label_text += "\nHomepage: [url={homepage}]{homepage}[/url]".format(fmt)
-			model_info_label.bbcode_text = label_text
-	model_info_card.rect_size = Vector2(0,0)
+			model_info_label.text = label_text
+	model_info_card.size = Vector2(0,0)
 	model_info_card.popup()
-	model_info_card.rect_global_position = get_global_mouse_position() + Vector2(30,-model_info_card.rect_size.y/2)
+	model_info_card.global_position = get_global_mouse_position() + Vector2(30,-model_info_card.size.y/2)
 
 func _on_model_info_models_meta_clicked(meta) -> void:
 # warning-ignore:return_value_discarded
@@ -133,7 +133,7 @@ func _on_model_trigger_pressed(model_name) -> void:
 			trigger_selection.add_check_item(t)
 		trigger_selection.add_item("Select")
 		trigger_selection.popup()
-		trigger_selection.rect_global_position = selected_models.rect_global_position
+		trigger_selection.global_position = selected_models.global_position
 	if selected_triggers.size() > 0:
 		emit_signal("prompt_inject_requested", selected_triggers)
 
@@ -145,7 +145,7 @@ func _get_model_performance(model_name: String) -> Dictionary:
 	var current_pct = model_performance['eta'] / 40
 	if current_pct > 1:
 		current_pct = 1
-	var health_color := healthy.linear_interpolate(unhealthy,current_pct)
+	var health_color := healthy.lerp(unhealthy,current_pct)
 	return {
 		"health_color": health_color.to_html(false),
 		"eta": model_performance['eta'],
@@ -165,7 +165,7 @@ func _on_trigger_selection_id_pressed(id: int) -> void:
 
 func _on_showcase_retrieved(img:ImageTexture, _model_name) -> void:
 	model_showcase.texture = img
-	model_showcase.rect_min_size = Vector2(400,400)
+	model_showcase.custom_minimum_size = Vector2(400,400)
 
 func replace_models(models_list: Array) -> void:
 	selected_models_list = models_list
@@ -224,10 +224,10 @@ func _update_selected_models_label() -> void:
 			"model_trigger": 'trigger:' + str(index),
 		}
 		bbtext.append(model_text.format(lora_fmt))
-	selected_models.bbcode_text = ", ".join(bbtext)
-	indexes_to_remove.invert()
+	selected_models.text = ", ".join(bbtext)
+	indexes_to_remove.reverse()
 	for index in indexes_to_remove:
-		selected_models_list.remove(index)
+		selected_models_list.pop_at(index)
 	if selected_models_list.size() > 0:
 		selected_models.show()
 	else:
@@ -239,7 +239,7 @@ func _on_selected_models_meta_clicked(meta) -> void:
 		"hover":
 			_show_model_details(selected_models_list[int(meta_split[1])])
 		"delete":
-			selected_models_list.remove(int(meta_split[1]))
+			selected_models_list.pop_at(int(meta_split[1]))
 			_update_selected_models_label()
 			_emit_selected_models()
 		"trigger":

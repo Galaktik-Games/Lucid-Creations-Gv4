@@ -15,7 +15,7 @@ Enjoy, let us know of any [url=issue tracker]issues or suggestions[/url] and joi
 """
 
 func _ready():
-	bbcode_text = TEXT
+	text = TEXT
 
 func _on_Infodump_meta_clicked(meta):
 	match meta:

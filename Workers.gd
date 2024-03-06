@@ -8,39 +8,39 @@ var worker_refresh: float
 var current_models := []
 var blocklist := false
 
-onready var worker_auto_complete = $"%WorkerAutoComplete"
-onready var selected_workers = $"%SelectedWorkers"
-onready var show_all_workers = $"%ShowAllWorkers"
+@onready var worker_auto_complete = $"%WorkerAutoComplete"
+@onready var selected_workers = $"%SelectedWorkers"
+@onready var show_all_workers = $"%ShowAllWorkers"
 
-onready var worker_select = $"%WorkerSelect"
-onready var stable_horde_workers := $"%StableHordeWorkers"
-onready var worker_info_card := $"%WorkerInfoCard"
-onready var worker_info_label := $"%WorkerInfoLabel"
-onready var popup_info := $"%WorkerPopupInfo"
-onready var popup_info_label := $"%WorkerPopupInfoLabel"
-onready var block_list = $"%BlockList"
+@onready var worker_select = $"%WorkerSelect"
+@onready var stable_horde_workers := $"%StableHordeWorkers"
+@onready var worker_info_card := $"%WorkerInfoCard"
+@onready var worker_info_label := $"%WorkerInfoLabel"
+@onready var popup_info := $"%WorkerPopupInfo"
+@onready var popup_info_label := $"%WorkerPopupInfoLabel"
+@onready var block_list = $"%BlockList"
 
 
 func _ready():
 # warning-ignore:return_value_discarded
-	EventBus.connect("model_selected",self,"on_model_selection_changed")
+	EventBus.connect("model_selected", Callable(self, "on_model_selection_changed"))
 	# warning-ignore:return_value_discarded
-	stable_horde_workers.connect("workers_retrieved",self, "_on_workers_retrieved")
+	stable_horde_workers.connect("workers_retrieved", Callable(self, "_on_workers_retrieved"))
 	# warning-ignore:return_value_discarded
-	worker_auto_complete.connect("item_selected", self,"_on_worker_selected")
+	worker_auto_complete.connect("item_selected", Callable(self, "_on_worker_selected"))
 	
-	selected_workers.connect("meta_clicked",self,"_on_selected_workers_meta_clicked")
-	selected_workers.connect("meta_hover_started",self,"_on_selected_workers_meta_hover_started")
-	selected_workers.connect("meta_hover_ended",self,"_on_selected_workers_meta_hover_ended")
-	worker_info_label.connect("meta_clicked",self,"_on_worker_info_workers_meta_clicked")
-	show_all_workers.connect("pressed",self,"_on_show_all_workers_pressed")
-	block_list.connect("toggled",self,"_on_blocklist_enabled")
+	selected_workers.connect("meta_clicked", Callable(self, "_on_selected_workers_meta_clicked"))
+	selected_workers.connect("meta_hover_started", Callable(self, "_on_selected_workers_meta_hover_started"))
+	selected_workers.connect("meta_hover_ended", Callable(self, "_on_selected_workers_meta_hover_ended"))
+	worker_info_label.connect("meta_clicked", Callable(self, "_on_worker_info_workers_meta_clicked"))
+	show_all_workers.connect("pressed", Callable(self, "_on_show_all_workers_pressed"))
+	block_list.connect("toggled", Callable(self, "_on_blocklist_enabled"))
 # warning-ignore:return_value_discarded
-	worker_info_card.connect("hide",self,"_on_workers_info_card_hide")
-	yield(get_tree().create_timer(0.2), "timeout")
+	worker_info_card.connect("hide", Callable(self, "_on_workers_info_card_hide"))
+	await get_tree().create_timer(0.2).timeout
 	selected_workers_list = globals.config.get_value("Options", "workers", [])
 	blocklist = globals.config.get_value("Options", "blocklist", false)
-	block_list.pressed = blocklist
+	block_list.button_pressed = blocklist
 	_update_selected_workers_label()
 	_emit_selected_workers()
 	
@@ -72,8 +72,8 @@ func _on_request_initiated():
 
 func _show_worker_details(worker_name: String) -> void:
 	var worker_reference := get_worker_reference(worker_name)
-	if worker_reference.empty():
-		worker_info_label.bbcode_text = "No worker info could not be retrieved at this time."
+	if worker_reference.is_empty():
+		worker_info_label.text = "No worker info could not be retrieved at this time."
 	else:
 		var perf = _get_worker_performance(worker_name)
 		var fmt = {
@@ -97,10 +97,10 @@ func _show_worker_details(worker_name: String) -> void:
 				+ "Performance: [color={health_color}]{performance}[/color].\n".format(fmt)\
 				+ "Models: {models}.\n\n".format(fmt)\
 				+ "Info: {info}".format(fmt)
-		worker_info_label.bbcode_text = label_text
-	worker_info_card.rect_size = Vector2(0,0)
+		worker_info_label.text = label_text
+	worker_info_card.size = Vector2(0,0)
 	worker_info_card.popup()
-	worker_info_card.rect_global_position = get_global_mouse_position() + Vector2(30,-worker_info_card.rect_size.y/2)
+	worker_info_card.global_position = get_global_mouse_position() + Vector2(30,-worker_info_card.size.y/2)
 
 func _get_worker_performance(worker_name: String) -> Dictionary:
 	var worker_performance := get_worker_performance(worker_name)
@@ -114,7 +114,7 @@ func _get_worker_performance(worker_name: String) -> Dictionary:
 	var normalized = (health_pct - 0.5) / (1.0 - 0.5)
 	if normalized < 0:
 		normalized = 0
-	var health_color := unhealthy.linear_interpolate(healthy,normalized)
+	var health_color := unhealthy.lerp(healthy,normalized)
 	var trusted_color = Color(0,1,0)
 	if not worker_reference['trusted']:
 		trusted_color = Color(1,1,0)
@@ -165,10 +165,10 @@ func _update_selected_workers_label() -> void:
 			"worker_remove": 'delete:' + str(index),
 		}
 		bbtext.append(worker_text.format(worker_fmt))
-	selected_workers.bbcode_text = ", ".join(bbtext)
-	indexes_to_remove.invert()
+	selected_workers.text = ", ".join(bbtext)
+	indexes_to_remove.reverse()
 	for index in indexes_to_remove:
-		selected_workers_list.remove(index)
+		selected_workers_list.pop_at(index)
 	if selected_workers_list.size() > 0:
 		selected_workers.show()
 	else:
@@ -180,7 +180,7 @@ func _on_selected_workers_meta_clicked(meta) -> void:
 		"hover":
 			_show_worker_details(selected_workers_list[int(meta_split[1])])
 		"delete":
-			selected_workers_list.remove(int(meta_split[1]))
+			selected_workers_list.pop_at(int(meta_split[1]))
 			_update_selected_workers_label()
 			_emit_selected_workers()
 

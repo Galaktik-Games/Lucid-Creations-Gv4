@@ -1,8 +1,8 @@
-tool
+@tool
 class_name ConfigSlider
 extends VBoxContainer
 
-signal value_changed
+#signal value_changed
 
 # I can't figure out a way to use const as export variable hints. Therefore I have to duplicate the export hints in this const
 const CONFIG := {
@@ -55,28 +55,28 @@ const CONFIG := {
 var upfront_limit = null
 var stored_sister_slider = null
 var generation_kudos = 0
-onready var h_slider = $"%HSlider"
-onready var config_name = $"%ConfigName"
-onready var config_value = $"%ConfigValue"
+@onready var h_slider = $"%HSlider"
+@onready var config_name = $"%ConfigName"
+@onready var config_value = $"%ConfigValue"
 
-export(String, "amount", "width", "height", "steps", "cfg_scale", "clip_skip", "denoising_strength") var config_setting := 'amount' setget set_config_name
+@export var config_setting := 'amount': set = set_config_name
 
 func _ready():
 	_adapt_to_config_name()
 	# warning-ignore:return_value_discarded
-	globals.connect("setting_changed", self, "_on_setting_changed")
+	globals.connect("setting_changed", Callable(self, "_on_setting_changed"))
 	if config_setting == "width":
 		# warning-ignore:return_value_discarded
-		EventBus.connect("height_changed", self, "_on_wh_changed")
+		EventBus.connect("height_changed", Callable(self, "_on_wh_changed"))
 	if config_setting == "height":
 		# warning-ignore:return_value_discarded
-		EventBus.connect("width_changed", self, "_on_wh_changed")
+		EventBus.connect("width_changed", Callable(self, "_on_wh_changed"))
 	if config_setting in ["width", "height"]:
 		# warning-ignore:return_value_discarded
-		ParamBus.connect("models_changed",self,"_on_models_changed")
+		ParamBus.connect("models_changed", Callable(self, "_on_models_changed"))
 # warning-ignore:return_value_discarded
-	EventBus.connect("kudos_calculated", self, "_on_kudos_calculated")
-	ParamBus.connect("params_changed",self,"_on_params_changed")
+	EventBus.connect("kudos_calculated", Callable(self, "_on_kudos_calculated"))
+	ParamBus.connect("params_changed", Callable(self, "_on_params_changed"))
 
 func set_value(value) -> void:
 	$"%HSlider".value = value
@@ -113,7 +113,7 @@ func set_config_name(value) -> void:
 	_adapt_to_config_name()
 	
 func _adapt_to_config_name() -> void:
-	if Engine.editor_hint and get_child_count() == 0:
+	if Engine.is_editor_hint() and get_child_count() == 0:
 		return
 	# WARNING: Can't use the onready names as they're not set in the editor
 	$"%ConfigName".text = CONFIG[config_setting].label

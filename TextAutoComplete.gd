@@ -1,21 +1,21 @@
 extends LineEdit
 
 enum PopupPosition {
-	BELOW = 0
-	RIGHT
+	BELOW = 0,
+	RIGHT,
 	BOTH
 }
 # Emitted whenever an item is selected
 signal item_selected(item)
 
 # The dictionary with the options from which to select
-export(Dictionary) var selections = {}
+@export var selections: Dictionary = {}
 # The extra keys in the dictionary which to use to match items
-export(Array) var seek_keys := ["name", "description"]
-export(Array) var description_keys := []
-export(String) var description_format := '{item}'
-export(PopupPosition) var popup_position := PopupPosition.BELOW
-onready var auto_complete_select := $"%AutoCompleteSelect"
+@export var seek_keys := ["name", "description"]
+@export var description_keys := []
+@export var description_format := '{item}'
+@export var popup_position := PopupPosition.BELOW
+@onready var auto_complete_select := $"%AutoCompleteSelect"
 
 func _ready():
 	for item in selections:
@@ -47,15 +47,15 @@ func _on_TextAutoComplete_text_changed(new_text: String, show_all=false):
 					break
 		if iter >= 6 and not show_all:
 			break
-	auto_complete_select.rect_size = Vector2(0,0)
+	auto_complete_select.size = Vector2(0,0)
 	auto_complete_select.show()
 	if popup_position == PopupPosition.BELOW:
-		auto_complete_select.rect_global_position.y = get_parent().rect_global_position.y + get_parent().rect_size.y
+		auto_complete_select.global_position.y = get_parent().global_position.y + get_parent().size.y
 	elif popup_position == PopupPosition.RIGHT:
-		auto_complete_select.rect_global_position.x = get_parent().rect_global_position.x + get_parent().rect_size.x
-		auto_complete_select.rect_global_position.y = get_parent().rect_global_position.y - (auto_complete_select.rect_size.y / 2)
+		auto_complete_select.global_position.x = get_parent().global_position.x + get_parent().size.x
+		auto_complete_select.global_position.y = get_parent().global_position.y - (auto_complete_select.size.y / 2)
 	elif popup_position == PopupPosition.BOTH:
-		auto_complete_select.rect_global_position = get_parent().rect_global_position + get_parent().rect_size
+		auto_complete_select.global_position = get_parent().global_position + get_parent().size
 
 func _add_item(item_key, id: int) -> void:
 	var fmt = {
