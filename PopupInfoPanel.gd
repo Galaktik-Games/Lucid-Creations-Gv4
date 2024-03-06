@@ -60,31 +60,31 @@ const META_DESCRIPTIONS = {
 
 var current_hovered_node: Control
 
-@onready var info = $"%Info"
+onready var info = $"%Info"
 
 func _ready():
 	# warning-ignore:return_value_discarded
-	EventBus.connect("node_hovered", Callable(self, "_on_node_hovered"))
+	EventBus.connect("node_hovered",self, "_on_node_hovered")
 	# warning-ignore:return_value_discarded
-	EventBus.connect("node_unhovered", Callable(self, "_on_node_unhovered"))
+	EventBus.connect("node_unhovered",self, "_on_node_unhovered")
 	# warning-ignore:return_value_discarded
-	EventBus.connect("rtl_meta_hovered", Callable(self, "_on_rtl_meta_hovered"))
+	EventBus.connect("rtl_meta_hovered",self, "_on_rtl_meta_hovered")
 	# warning-ignore:return_value_discarded
-	EventBus.connect("rtl_meta_unhovered", Callable(self, "_on_rtl_meta_unhovered"))
+	EventBus.connect("rtl_meta_unhovered",self, "_on_rtl_meta_unhovered")
 
 func _on_node_hovered(node: Control) -> void:
 	if not DESCRIPTIONS.has(node.name):
 		return
-	info.size = Vector2(0,0)
+	info.rect_size = Vector2(0,0)
 	current_hovered_node = node
-	self.global_position = current_hovered_node.global_position + Vector2(current_hovered_node.size.x + 10,0)
-	if self.global_position.x > get_viewport().size.x:
-		self.global_position.x = get_viewport().size.x - current_hovered_node.size.x
-	if self.global_position.y + info.size.y > get_viewport().size.y:
-		self.global_position.y = get_viewport().size.y - info.size.y - 10 
+	rect_global_position = current_hovered_node.rect_global_position + Vector2(current_hovered_node.rect_size.x + 10,0)
+	if rect_global_position.x > get_viewport().size.x:
+		rect_global_position.x = get_viewport().size.x - current_hovered_node.rect_size.x
+	if rect_global_position.y + info.rect_size.y > get_viewport().size.y:
+		rect_global_position.y = get_viewport().size.y - info.rect_size.y - 10 
 	info.text = DESCRIPTIONS[node.name]
 	visible = true
-	size = info.size
+	rect_size = info.rect_size
 
 func _on_node_unhovered(node: Control) -> void:
 	if current_hovered_node != node:
@@ -94,16 +94,16 @@ func _on_node_unhovered(node: Control) -> void:
 func _on_rtl_meta_hovered(node: RichTextLabel, rtl_meta: String) -> void:
 	if not META_DESCRIPTIONS.has(rtl_meta):
 		return
-	info.size = Vector2(0,0)
+	info.rect_size = Vector2(0,0)
 	current_hovered_node = node
-	self.global_position = current_hovered_node.global_position + Vector2(current_hovered_node.size.x + 10,0)
-	if self.global_position.x > get_viewport().size.x:
-		self.global_position.x = get_viewport().size.x - current_hovered_node.size.x
-	if self.global_position.y + info.size.y > get_viewport().size.y:
-		self.global_position.y = get_viewport().size.y - info.size.y 
+	rect_global_position = current_hovered_node.rect_global_position + Vector2(current_hovered_node.rect_size.x + 10,0)
+	if rect_global_position.x > get_viewport().size.x:
+		rect_global_position.x = get_viewport().size.x - current_hovered_node.rect_size.x
+	if rect_global_position.y + info.rect_size.y > get_viewport().size.y:
+		rect_global_position.y = get_viewport().size.y - info.rect_size.y 
 	info.text = META_DESCRIPTIONS[rtl_meta]
 	visible = true
-	size = info.size
+	rect_size = info.rect_size
 
 func _on_rtl_meta_unhovered(node: RichTextLabel) -> void:
 	if current_hovered_node != node:

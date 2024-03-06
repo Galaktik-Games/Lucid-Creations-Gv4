@@ -1,18 +1,17 @@
 class_name CivitAILoraReference
 extends StableHordeHTTPRequest
 
-
 signal reference_retrieved(models_list)
 signal cache_wiped
 
-@export var loras_refence_url := "https://civitai.com/api/v1/models?types=LORA&sort=Highest%20Rated&primaryFileOnly=true&limit=100"
-@export var horde_default_loras := "https://raw.githubusercontent.com/Haidra-Org/AI-Horde-image-model-reference/main/lora.json"
+export(String) var loras_refence_url := "https://civitai.com/api/v1/models?types=LORA&sort=Highest%20Rated&primaryFileOnly=true&limit=100"
+export(String) var horde_default_loras := "https://raw.githubusercontent.com/Haidra-Org/AI-Horde-image-model-reference/main/lora.json"
 
 
 var lora_reference := {}
 var lora_id_index := {}
 var models_retrieved = false
-var nsfw = true: set = set_nsfw
+var nsfw = true setget set_nsfw
 var initialized := false
 var default_ids : Array
 
@@ -29,10 +28,10 @@ func _ready() -> void:
 
 func get_lora_reference() -> void:
 	if state != States.READY:
-		push_warning("CivitAI Lora RefCounted currently working. Cannot do more than 1 request at a time with the same Stable Horde Model RefCounted.")
+		push_warning("CivitAI Lora Reference currently working. Cannot do more than 1 request at a time with the same Stable Horde Model Reference.")
 		return
 	state = States.WORKING
-	var error = request(horde_default_loras, [], HTTPClient.METHOD_GET)
+	var error = request(horde_default_loras, [], false, HTTPClient.METHOD_GET)
 	if error != OK:
 		var error_msg := "Something went wrong when initiating the request"
 		push_error(error_msg)
@@ -44,7 +43,7 @@ func _get_url(query) -> String:
 	if typeof(query) == TYPE_ARRAY:
 		var idsq = '&ids='.join(query)
 		final_url = "https://civitai.com/api/v1/models?limit=100&" + idsq
-	elif query.is_valid_int():
+	elif query.is_valid_integer():
 		final_url = "https://civitai.com/api/v1/models/" + query
 	# This refreshes the information of the top models
 	elif query == '':
@@ -62,7 +61,7 @@ func seek_online(query: String) -> void:
 
 func fetch_next_page(json_ret: Dictionary) -> void:
 	var next_page_url = json_ret["metadata"]["nextPage"]
-	var error = request(next_page_url, [], HTTPClient.METHOD_GET)
+	var error = request(next_page_url, [], false, HTTPClient.METHOD_GET)
 	if error != OK:
 		var error_msg := "Something went wrong when initiating the request"
 		push_error(error_msg)
@@ -70,8 +69,8 @@ func fetch_next_page(json_ret: Dictionary) -> void:
 
 func fetch_lora_metadata(query) -> void:
 	var new_fetch = CivitAIModelFetch.new()
-	new_fetch.connect("lora_info_retrieved", Callable(self, "_on_lora_info_retrieved"))
-	new_fetch.connect("lora_info_gathering_finished", Callable(self, "_on_lora_info_gathering_finished").bind(new_fetch))
+	new_fetch.connect("lora_info_retrieved",self,"_on_lora_info_retrieved")
+	new_fetch.connect("lora_info_gathering_finished",self,"_on_lora_info_gathering_finished", [new_fetch])
 	new_fetch.default_ids = default_ids
 	add_child(new_fetch)
 	new_fetch.fetch_metadata(_get_url(query))
@@ -154,32 +153,31 @@ func _get_all_lora_ids() -> Dictionary:
 	return all_l_id
 
 func _store_to_file() -> void:
-	var file = FileAccess.open("user://civitai_lora_reference", FileAccess.WRITE)
+	var file = File.new()
+	file.open("user://civitai_lora_reference", File.WRITE)
 	file.store_var(lora_reference)
 	file.close()
 
 func _load_from_file() -> void:
-	var file = FileAccess.open("user://civitai_lora_reference", FileAccess.READ)
-	if !file:
-		return
-	else:
-		var filevar = file.get_var()
-		var old_reference: Dictionary
-		if filevar:
-			old_reference = filevar
-		for lora in old_reference.values():
-			if not lora.has("versions"): 
-				continue
-			for version_id in lora["versions"].keys():
-				lora_id_index[version_id] = lora["name"]
-			lora["cached"] = true
-			# Temporary while changing approach
-			var unusable = lora.get("unusable", false)
-			if typeof(unusable) == TYPE_BOOL and unusable == false:
-				lora["unusable"] = 'Attention! This LoRa is unusable because it does not provide file validation.'
-			elif typeof(unusable) == TYPE_BOOL:
-				lora["unusable"] = ''
-			lora_reference[lora["name"]] = lora
+	var file = File.new()
+	file.open("user://civitai_lora_reference", File.READ)
+	var filevar = file.get_var()
+	var old_reference: Dictionary
+	if filevar:
+		old_reference = filevar
+	for lora in old_reference.values():
+		if not lora.has("versions"): 
+			continue
+		for version_id in lora["versions"].keys():
+			lora_id_index[version_id] = lora["name"]
+		lora["cached"] = true
+		# Temporary while changing approach
+		var unusable = lora.get("unusable", false)
+		if typeof(unusable) == TYPE_BOOL and unusable == false:
+			lora["unusable"] = 'Attention! This LoRa is unusable because it does not provide file validation.'
+		elif typeof(unusable) == TYPE_BOOL:
+			lora["unusable"] = ''
+		lora_reference[lora["name"]] = lora
 	file.close()
 	emit_signal("reference_retrieved", lora_reference)
 
@@ -201,7 +199,7 @@ func _store_lora(lora_data: Dictionary) -> void:
 		lora_id_index[version_id] = lora_name
 
 func wipe_cache() -> void:
-	var dir = DirAccess.open("user://civitai_lora_reference")
+	var dir = Directory.new()
 	dir.remove("user://civitai_lora_reference")
 	emit_signal("cache_wiped")
 	lora_reference = {}

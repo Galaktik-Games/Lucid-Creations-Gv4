@@ -1,35 +1,35 @@
 extends MarginContainer
 
-@onready var remember_prompt = $"%RememberPrompt"
-@onready var larger_values = $"%LargerValues"
-@onready var shared = $"%Shared"
-@onready var save_dir = $"%SaveDir"
-@onready var save_dir_browse_button = $"%SaveDirBrowseButton"
-@onready var api_key := $"%APIKey"
-@onready var api_key_label := $"%APIKeyLabel"
-@onready var login_button = $"%LoginButton"
-@onready var stable_horde_login = $"%StableHordeLogin"
-@onready var load_seed_from_disk = $"%LoadSeedFromDisk"
-@onready var wipe_cache = $"%WipeCache"
+onready var remember_prompt = $"%RememberPrompt"
+onready var larger_values = $"%LargerValues"
+onready var shared = $"%Shared"
+onready var save_dir = $"%SaveDir"
+onready var save_dir_browse_button = $"%SaveDirBrowseButton"
+onready var api_key := $"%APIKey"
+onready var api_key_label := $"%APIKeyLabel"
+onready var login_button = $"%LoginButton"
+onready var stable_horde_login = $"%StableHordeLogin"
+onready var load_seed_from_disk = $"%LoadSeedFromDisk"
+onready var wipe_cache = $"%WipeCache"
 
 func _ready():
-	remember_prompt.button_pressed = globals.config.get_value("Options", "remember_prompt", false)
-	remember_prompt.connect("toggled", Callable(self, "_on_remember_prompt_pressed"))
-	larger_values.button_pressed = globals.config.get_value("Options", "larger_values", false)
-	larger_values.connect("toggled", Callable(self, "_on_larger_values_pressed"))
-	load_seed_from_disk.button_pressed = globals.config.get_value("Options", "load_seed_from_disk", false)
-	load_seed_from_disk.connect("toggled", Callable(self, "_on_load_seed_from_disk_pressed"))
-	shared.button_pressed = globals.config.get_value("Options", "shared", true)
-	shared.connect("toggled", Callable(self, "_on_shared_pressed"))
+	remember_prompt.pressed = globals.config.get_value("Options", "remember_prompt", false)
+	remember_prompt.connect("toggled",self,"_on_remember_prompt_pressed")
+	larger_values.pressed = globals.config.get_value("Options", "larger_values", false)
+	larger_values.connect("toggled",self,"_on_larger_values_pressed")
+	load_seed_from_disk.pressed = globals.config.get_value("Options", "load_seed_from_disk", false)
+	load_seed_from_disk.connect("toggled",self,"_on_load_seed_from_disk_pressed")
+	shared.pressed = globals.config.get_value("Options", "shared", true)
+	shared.connect("toggled",self,"_on_shared_pressed")
 	# warning-ignore:return_value_discarded
-	login_button.connect("pressed", Callable(self, "_on_login_pressed"))
-	wipe_cache.connect("pressed", Callable(self, "_on_wipe_cache_pressed"))
-	EventBus.connect("generation_completed", Callable(self, "_on_generation_completed"))
+	login_button.connect("pressed",self,"_on_login_pressed")
+	wipe_cache.connect("pressed",self,"_on_wipe_cache_pressed")
+	EventBus.connect("generation_completed",self,"_on_generation_completed")
 #	save_dir.connect("text_changed",self,"_on_savedir_changed")
 	# warning-ignore:return_value_discarded
-	save_dir_browse_button.connect("savedir_path_set", Callable(self, "_on_savedir_selected"))
-	stable_horde_login.connect("login_successful", Callable(self, "_on_login_succesful"))
-	stable_horde_login.connect("request_failed", Callable(self, "_on_login_failed"))
+	save_dir_browse_button.connect("savedir_path_set",self,"_on_savedir_selected")
+	stable_horde_login.connect("login_successful",self, "_on_login_succesful")
+	stable_horde_login.connect("request_failed", self, "_on_login_failed")
 	var default_save_dir = globals.config.get_value("Options", "default_save_dir", "user://")
 	if default_save_dir in ["user://", '']:
 		_set_default_savedir_path()
@@ -110,9 +110,9 @@ func _on_APIKeyLabel_meta_clicked(meta):
 
 func _on_APIKey_text_changed(_new_text):
 	if api_key.text == "0000000000":
-		api_key_label.text = "API Key = Anonymous [url=register](Register)[/url]"
+		api_key_label.bbcode_text = "API Key = Anonymous [url=register](Register)[/url]"
 	else:
-		api_key_label.text = "API Key [url=anonymous](Anonymize?)[/url]"
+		api_key_label.bbcode_text = "API Key [url=anonymous](Anonymize?)[/url]"
 
 func _on_login_pressed() -> void:
 	globals.set_setting("api_key", api_key.text)

@@ -6,6 +6,7 @@ signal workers_retrieved(workers_list)
 var worker_results := []
 var workers_by_id := {}
 var workers_by_name := {}
+var workers_retrieved = false
 
 func _ready() -> void:
 	get_workers()
@@ -16,7 +17,7 @@ func get_workers() -> void:
 		print_debug("Workers currently working. Cannot do more than 1 request at a time with the same Stable Horde Models.")
 		return
 	state = States.WORKING
-	var error = request(aihorde_url + "/api/v2/workers?type=image", [], HTTPClient.METHOD_GET)
+	var error = request(aihorde_url + "/api/v2/workers?type=image", [], false, HTTPClient.METHOD_GET)
 	if error != OK:
 		var error_msg := "Something went wrong when initiating the stable horde request"
 		push_error(error_msg)
@@ -50,7 +51,7 @@ func get_worker_info(worker_string: String) -> Dictionary:
 	return {}
 
 func is_worker(worker_string: String) -> bool:
-	return not get_worker_info(worker_string).is_empty()
+	return not get_worker_info(worker_string).empty()
 
 func get_workers_with_models(models: Array) -> Dictionary:
 #	for w in workers_by_name:

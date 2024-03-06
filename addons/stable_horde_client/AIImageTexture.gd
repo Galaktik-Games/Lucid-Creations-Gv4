@@ -48,7 +48,7 @@ func _init(
 		_request_id: String,
 		_gen_metadata: Array
 	) -> void:
-	#super._init()
+	._init()
 	prompt = _prompt
 	attributes = _imgen_params.duplicate(true)
 	attributes.erase('n')
@@ -79,14 +79,14 @@ func set_source_image_path(image_path: String) -> void:
 	source_image_path = image_path
 	attributes['source_image_path'] = image_path
 
-func get_scene_file_path() -> String:
+func get_filename() -> String:
 	var fmt := {
 		"timestamp": timestamp,
 		"gen_seed": gen_seed,
 		"batch_id": '',
 	}
 	if _get_batch_id() != '':
-		fmt["batch_id"] = "_" + _get_batch_id()
+		 fmt["batch_id"] = "_" + _get_batch_id()
 	var filename = sanitize_filename(FILENAME_TEMPLATE.format(fmt)).substr(0,100)
 	return(filename)
 
@@ -111,15 +111,15 @@ func get_full_filename_path(save_dir_path: String, extension = "png") -> String:
 	var fmt = {
 		"save_dir_path": save_dir_path,
 		"relative_dir": get_dirname(),
-		"filename": get_scene_file_path(),
+		"filename": get_filename(),
 		"extension": extension,
 	}
 	var filename = "{save_dir_path}/{relative_dir}/{filename}.{extension}".format(fmt)
 	return(filename)
 
 func save_in_dir(save_dir_path: String) -> void:
-	var dir = DirAccess.open(save_dir_path)
-	var error = dir.get_open_error()
+	var dir = Directory.new()
+	var error = dir.open(save_dir_path)
 	if error != OK:
 		dir.make_dir(save_dir_path)
 	error = dir.open(save_dir_path)
@@ -133,8 +133,9 @@ func save_in_dir(save_dir_path: String) -> void:
 
 # This assumes the parent directory has been created already
 func save_attributes_to_file(filepath:String) -> void:
-	var file = FileAccess.open(filepath, FileAccess.WRITE)
-	file.store_string(JSON.stringify(attributes, '\t'))
+	var file = File.new()
+	file.open(filepath, File.WRITE)
+	file.store_string(JSON.print(attributes, '\t'))
 	file.close()
 	
 static func sanitize_filename(filename: String) -> String:

@@ -2,12 +2,11 @@ extends Button
 
 signal savedir_path_set(path)
 
-@onready var save_dir_browse_native_dialog_select_folder = $"%SaveDirBrowseNativeDialogSelectFolder"
+onready var save_dir_browse_native_dialog_select_folder = $"%SaveDirBrowseNativeDialogSelectFolder"
 
 
 func _ready():
-	pass
-	#save_dir_browse_native_dialog_select_folder.initial_path = globals.config.get_value("Options", "savedir_path", "user://")
+	save_dir_browse_native_dialog_select_folder.initial_path = globals.config.get_value("Options", "savedir_path", "user://")
 
 func _on_SaveDirBrowseNativeDialogSelectFolder_folder_selected(folder: String):
 	globals.set_setting("savedir_path", folder, "Options")
@@ -15,5 +14,5 @@ func _on_SaveDirBrowseNativeDialogSelectFolder_folder_selected(folder: String):
 	emit_signal("savedir_path_set", folder)
 
 func _on_SaveDirBrowseButton_pressed():
-	DisplayServer.file_dialog_show("Select a directory", "user://", "", false, DisplayServer.FILE_DIALOG_MODE_OPEN_DIR, [], _on_SaveDirBrowseNativeDialogSelectFolder_folder_selected)
 	save_dir_browse_native_dialog_select_folder.show()
+
