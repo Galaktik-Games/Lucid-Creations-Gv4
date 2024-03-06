@@ -181,7 +181,7 @@ func _on_selected_loras_meta_clicked(meta) -> void:
 			lora_clip_strength.set_value(selected_loras_list[viewed_lora_index]["clip"])
 			_show_lora_details(selected_loras_list[viewed_lora_index]["id"])
 		"delete":
-			selected_loras_list.remove(int(meta_split[1]))
+			selected_loras_list.pop_at(int(meta_split[1]))
 			update_selected_loras_label()
 			emit_signal("loras_modified", selected_loras_list)
 		"trigger":
@@ -247,7 +247,7 @@ func update_selected_loras_label() -> void:
 	selected_loras.text = ", ".join(bbtext)
 	indexes_to_remove.invert()
 	for index in indexes_to_remove:
-		selected_loras_list.remove(index)
+		selected_loras_list.pop_at(index)
 	if selected_loras_list.size() > 0:
 		selected_loras.show()
 	else:

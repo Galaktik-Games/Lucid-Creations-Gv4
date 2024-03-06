@@ -6,8 +6,8 @@ signal request_failed(error_msg)
 signal request_warning(warning_msg)
 
 enum States {
-	READY
-	WORKING
+	READY,
+	WORKING,
 	CANCELLING
 }
 # When set to true, we will abort the current generation and try to retrieve whatever images we can

@@ -2,7 +2,7 @@
 class_name ConfigSlider
 extends VBoxContainer
 
-signal value_changed
+signal _on_value_changed
 
 # I can't figure out a way to use const as export variable hints. Therefore I have to duplicate the export hints in this const
 const CONFIG := {
@@ -106,7 +106,7 @@ func reset_max_value() -> void:
 func _on_HSlider_drag_ended(value_changed):
 	if not value_changed:
 		return
-	emit_signal("value_changed")
+	emit_signal("_on_value_changed")
 
 func set_config_name(value) -> void:
 	config_setting = value

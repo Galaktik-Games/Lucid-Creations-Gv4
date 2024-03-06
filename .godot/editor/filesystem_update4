@@ -8,3 +8,5 @@ res://src/Lora/TextualInversion.gd
 res://src/ParamBus.gd
 res://Model.gd
 res://PP.gd
+res://addons/stable_horde_client/stable_horde_httpclient.gd
+res://ConfigSlider.gd

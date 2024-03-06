@@ -7,3 +7,7 @@ export.cfg
 # Mono-specific ignores
 .mono/
 *.import
+
+.godot/
+.vscode/
+
