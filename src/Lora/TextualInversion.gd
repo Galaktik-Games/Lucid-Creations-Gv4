@@ -2,8 +2,8 @@ class_name TISelection
 extends Control
 
 enum TICompatible {
-	YES=0
-	NO
+	YES=0,
+	NO,
 	MAYBE
 }
 

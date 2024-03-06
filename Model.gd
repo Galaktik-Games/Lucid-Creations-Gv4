@@ -227,7 +227,7 @@ func _update_selected_models_label() -> void:
 	selected_models.text = ", ".join(bbtext)
 	indexes_to_remove.invert()
 	for index in indexes_to_remove:
-		selected_models_list.remove(index)
+		selected_models_list.pop_at(index)
 	if selected_models_list.size() > 0:
 		selected_models.show()
 	else:
@@ -239,7 +239,7 @@ func _on_selected_models_meta_clicked(meta) -> void:
 		"hover":
 			_show_model_details(selected_models_list[int(meta_split[1])])
 		"delete":
-			selected_models_list.remove(int(meta_split[1]))
+			selected_models_list.pop_at(int(meta_split[1]))
 			_update_selected_models_label()
 			_emit_selected_models()
 		"trigger":

@@ -2,8 +2,8 @@ class_name LoraSelection
 extends Control
 
 enum LoraCompatible {
-	YES=0
-	NO
+	YES=0,
+	NO,
 	MAYBE
 }
 

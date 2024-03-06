@@ -206,19 +206,19 @@ func get_post_processing() -> Array:
 	return post_processing_node.selected_pp
 
 func get_karras() -> bool:
-	return karras_node.pressed
+	return karras_node.button_pressed
 
 func get_hires_fix() -> bool:
-	return hires_fix_node.pressed
+	return hires_fix_node.button_pressed
 
 func get_nsfw() -> bool:
-	return nsfw_node.pressed
+	return nsfw_node.button_pressed
 
 func get_censor_nsfw() -> bool:
-	return censor_nsfw_node.pressed
+	return censor_nsfw_node.button_pressed
 
 func get_trusted_workers() -> bool:
-	return trusted_workers_node.pressed
+	return trusted_workers_node.button_pressed
 
 func get_models() -> Array:
 	return models_node.selected_models_list
@@ -229,7 +229,7 @@ func get_source_image() -> Image:
 	return null
 
 func get_shared() -> bool:
-	return shared_node.pressed
+	return shared_node.button_pressed
 
 func get_control_type() -> String:
 	if img2img_node.pressed:

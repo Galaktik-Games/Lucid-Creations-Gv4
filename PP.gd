@@ -67,7 +67,7 @@ func _update_pp_label() -> void:
 func _on_pp_meta_clicked(index: String) -> void:
 	if "hover" in index:
 		return
-	selected_pp.remove(int(index))
+	selected_pp.pop_at(int(index))
 	globals.set_setting("post_processing",selected_pp)
 	_update_pp_label()
 
