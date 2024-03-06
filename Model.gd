@@ -24,7 +24,7 @@ var model_refresh: float
 
 func _ready():
 	# warning-ignore:return_value_discarded
-	stable_horde_models.connect("models_retrieved", Callable(self, "_on_models_retrieved"))
+	stable_horde_models.connect("on_models_retrieved", Callable(self, "_on_models_retrieved"))
 	# warning-ignore:return_value_discarded
 	trigger_selection.connect("id_pressed", Callable(self, "_on_trigger_selection_id_pressed"))
 	# warning-ignore:return_value_discarded
@@ -38,7 +38,7 @@ func _ready():
 	model_info_label.connect("meta_clicked", Callable(self, "_on_model_info_models_meta_clicked"))
 	show_all_models.connect("pressed", Callable(self, "_on_show_all_models_pressed"))
 # warning-ignore:return_value_discarded
-	model_info_card.connect("hide", Callable(self, "_on_models_info_card_hide"))
+	model_info_card.connect("popup_hide", Callable(self, "_on_models_info_card_hide"))
 	stable_horde_models.emit_models_retrieved()
 	await get_tree().create_timer(0.2).timeout
 	selected_models_list = globals.config.get_value("Parameters", "models", [])

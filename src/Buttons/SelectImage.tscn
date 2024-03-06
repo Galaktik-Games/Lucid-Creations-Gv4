@@ -1,7 +1,6 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=2 format=3 uid="uid://dubsqtytp1kxx"]
 
-[ext_resource path="res://addons/native_dialogs/bin/native_dialog_open_file.gdns" type="Script" id=1]
-[ext_resource path="res://src/Buttons/SelectImage.gd" type="Script" id=2]
+[ext_resource type="Script" path="res://src/Buttons/SelectImage.gd" id="2"]
 
 [node name="SelectImage" type="Button"]
 unique_name_in_owner = true
@@ -10,14 +9,6 @@ offset_top = 80.0
 offset_right = 300.0
 offset_bottom = 121.251
 text = "Select Image"
-script = ExtResource( 2 )
-
-[node name="SelectImageNativeDialogOpenFile" type="Node" parent="."]
-unique_name_in_owner = true
-script = ExtResource( 1 )
-title = "Select image for img2img"
-initial_path = "user://"
-filters = PackedStringArray( "*.png, *.webp, *.jpg, *.jpeg ; Image Files" )
+script = ExtResource("2")
 
 [connection signal="pressed" from="." to="." method="_on_SelectImage_pressed"]
-[connection signal="files_selected" from="SelectImageNativeDialogOpenFile" to="." method="_on_SelectImageNativeDialogOpenFile_files_selected"]

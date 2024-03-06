@@ -141,7 +141,7 @@ func setup(
 		denoising_strength_node
 	]:
 		# warning-ignore:return_value_discarded
-		slider.connect("value_changed", Callable(self, "_on_hslider_changed").bind(slider))
+		slider.connect("_on_value_changed", Callable(self, "_on_hslider_changed").bind(slider))
 	for cbutton in [
 		karras_node,
 		hires_fix_node,

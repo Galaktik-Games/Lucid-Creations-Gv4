@@ -14,7 +14,7 @@
 [ext_resource type="PackedScene" path="res://src/Lora/LoraSlider.tscn" id="13"]
 [ext_resource type="Texture2D" uid="uid://dp6gj4u2kafli" path="res://assets/icons/magnifying-glass.png" id="14"]
 [ext_resource type="Texture2D" uid="uid://ddyx5wrw1y483" path="res://assets/icons/archive-research.png" id="15"]
-[ext_resource type="PackedScene" path="res://src/Buttons/LoadFromDisk.tscn" id="16"]
+[ext_resource type="PackedScene" uid="uid://be6rcn52wg5r3" path="res://src/Buttons/LoadFromDisk.tscn" id="16"]
 [ext_resource type="PackedScene" path="res://PopupInfoPanel.tscn" id="17"]
 [ext_resource type="Texture2D" uid="uid://bbdwohdh5jxog" path="res://theme/assets/iconpark/asterisk.svg" id="18"]
 [ext_resource type="Script" path="res://Background.gd" id="19"]
@@ -27,7 +27,7 @@
 [ext_resource type="PackedScene" path="res://TextAutoComplete.tscn" id="26"]
 [ext_resource type="Script" path="res://src/Lora/Lora.gd" id="27"]
 [ext_resource type="Script" path="res://addons/stable_horde_client/civitai_showcase.gd" id="28"]
-[ext_resource type="PackedScene" path="res://src/Buttons/SelectImage.tscn" id="29"]
+[ext_resource type="PackedScene" uid="uid://dubsqtytp1kxx" path="res://src/Buttons/SelectImage.tscn" id="29"]
 [ext_resource type="PackedScene" path="res://src/Options/SaveDirBrowseButton.tscn" id="30"]
 [ext_resource type="Script" path="res://src/PromptLine.gd" id="31"]
 [ext_resource type="Script" path="res://src/NegPromptLine.gd" id="32"]
@@ -306,16 +306,6 @@ unique_name_in_owner = true
 visible = false
 layout_mode = 2
 color = Color(0.12, 0.12, 0.12, 0.392157)
-
-[node name="Tween" type="Tween" parent="Margin/Panel/Display/Panels/Controls/Prompt/PromptCC"]
-_import_path = NodePath("")
-unique_name_in_owner = true
-process_mode = 0
-process_priority = 0
-process_physics_priority = 0
-process_thread_group = 0
-editor_description = ""
-script = null
 
 [node name="NegPromptHBC" type="VBoxContainer" parent="Margin/Panel/Display/Panels/Controls/Prompt"]
 unique_name_in_owner = true

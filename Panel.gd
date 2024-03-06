@@ -11,7 +11,7 @@ const ANIM_ANCHOR := ["anchor_left", "anchor_right"]
 # for loading the images for background
 var thread: Thread
 
-@onready var tween := Tween.new()
+@onready var tween := create_tween().set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN)
 
 # the `panel` container we will control
 @onready var controls: Control = $"%Controls"

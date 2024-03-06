@@ -28,10 +28,6 @@ ParamBus="*res://src/ParamBus.gd"
 window/size/viewport_width=1600
 window/size/viewport_height=900
 
-[editor_plugins]
-
-enabled=PackedStringArray("res://addons/stable_horde_client/plugin.cfg")
-
 [global]
 
 icon=false
