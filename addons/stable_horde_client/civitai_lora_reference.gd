@@ -197,8 +197,7 @@ func _store_lora(lora_data: Dictionary) -> void:
 		lora_id_index[version_id] = lora_name
 
 func wipe_cache() -> void:
-	var dir = DirAccess.new()
-	dir.pop_at("user://civitai_lora_reference")
+	var dir = DirAccess.open("user://").pop_at("civitai_lora_reference")
 	emit_signal("cache_wiped")
 	lora_reference = {}
 	get_lora_reference()

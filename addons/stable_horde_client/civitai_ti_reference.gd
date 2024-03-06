@@ -43,7 +43,7 @@ func seek_online(query: String) -> void:
 
 func fetch_next_page(json_ret: Dictionary) -> void:
 	var next_page_url = json_ret["metadata"]["nextPage"]
-	var error = request(next_page_url, [], false, HTTPClient.METHOD_GET)
+	var error = request(next_page_url, [], HTTPClient.METHOD_GET)
 	if error != OK:
 		var error_msg := "Something went wrong when initiating the request"
 		push_error(error_msg)
@@ -215,6 +215,6 @@ func _store_ti(ti_data: Dictionary) -> void:
 	ti_id_index[int(ti_data["id"])] = ti_name
 
 func wipe_cache() -> void:
-	var dir = DirAccess.open("user://civitai_ti_reference").pop_at("user://civitai_ti_reference")
+	var dir = DirAccess.open("user://").pop_at("civitai_ti_reference")
 	emit_signal("cache_wiped")
 	ti_reference = {}

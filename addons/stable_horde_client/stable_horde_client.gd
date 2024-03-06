@@ -250,14 +250,12 @@ func _extract_images(generations_array: Array) -> void:
 			add_child(image_retriever)
 			image_retriever.connect(
 					"retrieval_failed", 
-					self, 
-					"_on_r2_retrieval_failed", 
-					[generations_array.size()])
+					_on_r2_retrieval_failed, 
+					generations_array.size())
 			image_retriever.connect(
-					"retrieval_success", 
-					self, 
-					"_on_r2_retrieval_success", 
-					[img_dict,  timestamp, generations_array.size()])
+					"retrieval_success",
+					_on_r2_retrieval_success, 
+					generations_array.size())
 			image_retriever.download_image(img_dict["img"])
 		else:
 			var b64img = img_dict["img"]

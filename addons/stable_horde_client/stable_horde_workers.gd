@@ -1,7 +1,7 @@
 class_name StableHordeWorkers
 extends StableHordeHTTPRequest
 
-signal workers_retrieved(workers_list)
+signal on_workers_retrieved(workers_list)
 
 var worker_results := []
 var workers_by_id := {}
@@ -17,7 +17,7 @@ func get_workers() -> void:
 		print_debug("Workers currently working. Cannot do more than 1 request at a time with the same Stable Horde Models.")
 		return
 	state = States.WORKING
-	var error = request(aihorde_url + "/api/v2/workers?type=image", [], false, HTTPClient.METHOD_GET)
+	var error = request(aihorde_url + "/api/v2/workers?type=image", [], HTTPClient.METHOD_GET)
 	if error != OK:
 		var error_msg := "Something went wrong when initiating the stable horde request"
 		push_error(error_msg)
@@ -41,7 +41,7 @@ func process_request(json_ret) -> void:
 	state = States.READY
 
 func emit_models_retrieved() -> void:
-	emit_signal("workers_retrieved", worker_results)
+	emit_signal("on_workers_retrieved", worker_results)
 
 func get_worker_info(worker_string: String) -> Dictionary:
 	if workers_by_id.has(worker_string):

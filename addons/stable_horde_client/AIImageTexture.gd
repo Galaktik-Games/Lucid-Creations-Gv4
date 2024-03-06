@@ -48,7 +48,7 @@ func _init(
 		_request_id: String,
 		_gen_metadata: Array
 	) -> void:
-	super._init()
+	#super._init() #Removed because not needed???
 	prompt = _prompt
 	attributes = _imgen_params.duplicate(true)
 	attributes.erase('n')
@@ -86,7 +86,7 @@ func get_scene_file_path() -> String:
 		"batch_id": '',
 	}
 	if _get_batch_id() != '':
-		 fmt["batch_id"] = "_" + _get_batch_id()
+		fmt["batch_id"] = "_" + _get_batch_id()
 	var filename = sanitize_filename(FILENAME_TEMPLATE.format(fmt)).substr(0,100)
 	return(filename)
 
@@ -118,8 +118,8 @@ func get_full_filename_path(save_dir_path: String, extension = "png") -> String:
 	return(filename)
 
 func save_in_dir(save_dir_path: String) -> void:
-	var dir = DirAccess.new()
-	var error = dir.open(save_dir_path)
+	var dir = DirAccess.open(save_dir_path)
+	var error = dir.get_open_error()
 	if error != OK:
 		dir.make_dir(save_dir_path)
 	error = dir.open(save_dir_path)

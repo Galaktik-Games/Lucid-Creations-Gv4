@@ -143,7 +143,7 @@ func _on_selected_tis_meta_clicked(meta) -> void:
 			ti_inject.set_value(selected_tis_list[viewed_ti_index].get("inject_ti"))
 			_show_ti_details(selected_tis_list[viewed_ti_index]["name"])
 		"delete":
-			selected_tis_list.remove(int(meta_split[1]))
+			selected_tis_list.pop_at(int(meta_split[1]))
 			update_selected_tis_label()
 			emit_signal("tis_modified", selected_tis_list)
 		"trigger":
@@ -221,7 +221,7 @@ func update_selected_tis_label() -> void:
 	selected_tis.text = ", ".join(bbtext)
 	indexes_to_remove.invert()
 	for index in indexes_to_remove:
-		selected_tis_list.remove(index)
+		selected_tis_list.pop_at(index)
 	if selected_tis_list.size() > 0:
 		selected_tis.show()
 	else:

@@ -77,11 +77,11 @@ func _on_node_hovered(node: Control) -> void:
 		return
 	info.size = Vector2(0,0)
 	current_hovered_node = node
-	global_position = current_hovered_node.global_position + Vector2(current_hovered_node.size.x + 10,0)
-	if global_position.x > get_viewport().size.x:
-		global_position.x = get_viewport().size.x - current_hovered_node.size.x
-	if global_position.y + info.size.y > get_viewport().size.y:
-		global_position.y = get_viewport().size.y - info.size.y - 10 
+	self.global_position = current_hovered_node.global_position + Vector2(current_hovered_node.size.x + 10,0)
+	if self.global_position.x > get_viewport().size.x:
+		self.global_position.x = get_viewport().size.x - current_hovered_node.size.x
+	if self.global_position.y + info.size.y > get_viewport().size.y:
+		self.global_position.y = get_viewport().size.y - info.size.y - 10 
 	info.text = DESCRIPTIONS[node.name]
 	visible = true
 	size = info.size
@@ -96,11 +96,11 @@ func _on_rtl_meta_hovered(node: RichTextLabel, rtl_meta: String) -> void:
 		return
 	info.size = Vector2(0,0)
 	current_hovered_node = node
-	global_position = current_hovered_node.global_position + Vector2(current_hovered_node.size.x + 10,0)
-	if global_position.x > get_viewport().size.x:
-		global_position.x = get_viewport().size.x - current_hovered_node.size.x
-	if global_position.y + info.size.y > get_viewport().size.y:
-		global_position.y = get_viewport().size.y - info.size.y 
+	self.global_position = current_hovered_node.global_position + Vector2(current_hovered_node.size.x + 10,0)
+	if self.global_position.x > get_viewport().size.x:
+		self.global_position.x = get_viewport().size.x - current_hovered_node.size.x
+	if self.global_position.y + info.size.y > get_viewport().size.y:
+		self.global_position.y = get_viewport().size.y - info.size.y 
 	info.text = META_DESCRIPTIONS[rtl_meta]
 	visible = true
 	size = info.size

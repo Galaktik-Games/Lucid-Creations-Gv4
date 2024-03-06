@@ -34,7 +34,7 @@ var thread: Thread
 
 
 func _ready() -> void:
-	add_child(tween)
+	#add_child(tween) ## Tweens were changed in v4
 	
 	# hide all panel, just in case
 	for node in controls.get_children():
