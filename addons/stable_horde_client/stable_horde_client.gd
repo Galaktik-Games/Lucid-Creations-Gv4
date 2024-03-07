@@ -3,7 +3,7 @@ extends StableHordeHTTPRequest
 
 signal images_generated(completed_payload)
 signal image_processing(stats)
-signal kudos_calculated(kudos)
+#signal kudos_calculated(kudos)
 
 enum SamplerMethods {
 	k_lms = 0,

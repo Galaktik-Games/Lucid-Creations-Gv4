@@ -4,10 +4,10 @@ var kudos : float = 0
 var countdown_timer : float = 0
 
 func _ready():
-	# warning-ignore:return_value_discarded
+	
 	ParamBus.connect("params_changed", Callable(self, "_on_params_changed"))
-	# warning-ignore:return_value_discarded
-	connect("kudos_calculated", Callable(self, "_on_kudos_calculated"))
+	
+	ParamBus.connect("kudos_calculated", Callable(self, "_on_kudos_calculated"))
 	dry_run = true
 
 func _process(delta):
@@ -46,4 +46,4 @@ func _init_calculate_kudos() -> void:
 	generate()
 
 func _on_kudos_calculated(kudos_payload: Dictionary) -> void:
-	EventBus.emit_signal("kudos_calculated", kudos_payload["kudos"])
+	ParamBus.emit_signal("kudos_calculated", kudos_payload["kudos"])

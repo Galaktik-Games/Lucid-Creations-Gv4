@@ -63,13 +63,13 @@ var current_hovered_node: Control
 @onready var info = $"%Info"
 
 func _ready():
-	# warning-ignore:return_value_discarded
+	
 	EventBus.connect("node_hovered", Callable(self, "_on_node_hovered"))
-	# warning-ignore:return_value_discarded
+	
 	EventBus.connect("node_unhovered", Callable(self, "_on_node_unhovered"))
-	# warning-ignore:return_value_discarded
+	
 	EventBus.connect("rtl_meta_hovered", Callable(self, "_on_rtl_meta_hovered"))
-	# warning-ignore:return_value_discarded
+	
 	EventBus.connect("rtl_meta_unhovered", Callable(self, "_on_rtl_meta_unhovered"))
 
 func _on_node_hovered(node: Control) -> void:

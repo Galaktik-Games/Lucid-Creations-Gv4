@@ -5,3 +5,15 @@ res://theme/dark.tres
 res://src/Buttons/SelectImage.gd
 res://theme/kenneyUI-blue.tres
 res://globals/settings_manager.gd
+res://Workers.gd
+res://PP.gd
+res://src/PromptLine.gd
+res://src/ParamBus.gd
+res://src/KudosCost.gd
+res://PopupInfoPanel.gd
+res://bus.gd
+res://Consts.gd
+res://ConfigSlider.gd
+res://Background.gd
+res://src/NegPromptLine.gd
+res://addons/stable_horde_client/stable_horde_client.gd

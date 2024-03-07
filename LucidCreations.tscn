@@ -97,6 +97,34 @@ script = ExtResource("2")
 [node name="KudosCost" type="HTTPRequest" parent="Margin"]
 unique_name_in_owner = true
 script = ExtResource("33")
+prompt = null
+api_key = null
+amount = null
+width = null
+height = null
+steps = null
+sampler_name = null
+cfg_scale = null
+clip_skip = null
+denoising_strength = null
+gen_seed = null
+post_processing = null
+lora = null
+tis = null
+karras = null
+hires_fix = null
+nsfw = null
+censor_nsfw = null
+trusted_workers = null
+models = null
+r2 = null
+shared = null
+control_type = null
+dry_run = null
+workers = null
+worker_blacklist = null
+aihorde_url = null
+client_agent = null
 
 [node name="Panel" type="VBoxContainer" parent="Margin"]
 layout_mode = 2

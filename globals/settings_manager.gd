@@ -15,16 +15,17 @@ var _settings := {
 		"api_key": "",
 		"censor_nsfw": false,
 		"trusted_workers": false,
-        "prompt": "",
+		"prompt": "",
 		"negative_prompt": "",
-        "larger_settings": false
+		"larger_settings": false
 	},
 	SECTION_PARAMETERS: {
 		"post_processing": false,
+		"models": [],
 		"loras": [],
 		"tis": [],
 		"workers": [],
-		"blocklist": [],
+		"blocklist": false,
 		"width": 512,
 		"height": 512,
 		"sampler_name": "Euler a",
@@ -40,10 +41,10 @@ var _settings := {
 		"scheduler_name": "",
 		"model_hash": "",
 		"model_name": "",
-        "remember_prompt": true,
-        "denoising_strength": 0.7,
-        "default_save_dir": "user://",
-        "tutorial_seen": false
+		"remember_prompt": true,
+		"denoising_strength": 0.7,
+		"default_save_dir": "user://",
+		"tutorial_seen": false,
 	}
 }
 
@@ -113,9 +114,6 @@ func set_negative_prompt(negative_prompt: bool) -> void:
 
 func get_models() -> Array:
 	return get_setting("models")
-
-func set_models(models: Array) -> void:
-	set_setting("models", models)
 
 func get_loras() -> Array:
 	return get_setting("loras")
