@@ -28,11 +28,11 @@ func _ready():
 	pp_popup.clear()
 	for p in POST_PROCESSORS:
 		pp_popup.add_item(p)
-	selected_pp = globals.config.get_value("Parameters", "post_processing", [])
+	selected_pp = []   #SettingsManager.get_setting("post_processing")
 	_update_pp_label()
 	# warning-ignore:return_value_discarded
 	pp_popup.connect("index_pressed", Callable(self, "on_index_pressed"))
-	# warning-ignore:return_value_discarded
+	
 	pp_selected.connect("meta_clicked", Callable(self, "_on_pp_meta_clicked"))
 	# warning-ignore:return_value_discarded
 	pp_selected.connect("meta_hover_started", Callable(self, "_on_meta_hover_started"))
@@ -43,12 +43,12 @@ func on_index_pressed(index: int) -> void:
 	if POST_PROCESSORS[index] in selected_pp:
 		return
 	selected_pp.append(POST_PROCESSORS[index])
-	globals.set_setting("post_processing",selected_pp)
+	SettingsManager.set_setting("post_processing",selected_pp)
 	_update_pp_label()
 
 func replace_pp(pp_list: Array) -> void:
 	selected_pp = pp_list
-	globals.set_setting("post_processing",selected_pp)
+	SettingsManager.set_setting("post_processing",selected_pp)
 	_update_pp_label()
 
 func _update_pp_label() -> void:
@@ -68,7 +68,7 @@ func _on_pp_meta_clicked(index: String) -> void:
 	if "hover" in index:
 		return
 	selected_pp.pop_at(int(index))
-	globals.set_setting("post_processing",selected_pp)
+	SettingsManager.set_setting("post_processing",selected_pp)
 	_update_pp_label()
 
 func _on_meta_hover_started(meta: String) -> void:

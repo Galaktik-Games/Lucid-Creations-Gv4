@@ -38,51 +38,50 @@ var current_models := []
 @onready var lora_version_selection = $"%LoraVersionSelection"
 
 func _ready():
-	# warning-ignore:return_value_discarded
-	EventBus.connect("model_selected", Callable(self, "on_model_selection_changed"))
-	# warning-ignore:return_value_discarded
-	EventBus.connect("cache_wipe_requested", Callable(self, "on_cache_wipe_requested"))
+	
+	# Reorganized code block
+	# Initialize lora_reference_node and set nsfw property
 	lora_reference_node = CivitAILoraReference.new()
-	lora_reference_node.nsfw = globals.config.get_value("Parameters", "nsfw")
-	# warning-ignore:return_value_discarded
+	lora_reference_node.nsfw = SettingsManager.get_setting("nsfw")
 	lora_reference_node.connect("reference_retrieved", Callable(self, "_on_reference_retrieved"))
-	# warning-ignore:return_value_discarded
 	lora_reference_node.connect("cache_wiped", Callable(self, "_on_cache_wiped"))
 	add_child(lora_reference_node)
-	# warning-ignore:return_value_discarded
+	
+	# Connect signals for lora_auto_complete, lora_trigger_selection, and lora_version_selection
 	lora_auto_complete.connect("item_selected", Callable(self, "_on_lora_selected"))
-	# warning-ignore:return_value_discarded
 	lora_trigger_selection.connect("id_pressed", Callable(self, "_on_trigger_selection_id_pressed"))
-	# warning-ignore:return_value_discarded
 	lora_version_selection.get_popup().connect("id_pressed", Callable(self, "_on_lora_version_selected"))
-	# warning-ignore:return_value_discarded
+	
+	# Connect signals for civitai_showcase0 and civitai_showcase1
 	civitai_showcase0.connect("showcase_retrieved", Callable(self, "_on_showcase0_retrieved"))
-	# warning-ignore:return_value_discarded
 	civitai_showcase1.connect("showcase_retrieved", Callable(self, "_on_showcase1_retrieved"))
-	# warning-ignore:return_value_discarded
 	civitai_showcase0.connect("showcase_failed", Callable(self, "_on_showcase0_failed"))
-	# warning-ignore:return_value_discarded
 	civitai_showcase1.connect("showcase_failed", Callable(self, "_on_showcase1_failed"))
-	# warning-ignore:return_value_discarded
+	
+	# Connect signals for selected_loras
 	selected_loras.connect("meta_clicked", Callable(self, "_on_selected_loras_meta_clicked"))
-	# warning-ignore:return_value_discarded
 	selected_loras.connect("meta_hover_started", Callable(self, "_on_selected_loras_meta_hover_started"))
-	# warning-ignore:return_value_discarded
 	selected_loras.connect("meta_hover_ended", Callable(self, "_on_selected_loras_meta_hover_ended"))
-	# warning-ignore:return_value_discarded
+	
+	# Connect signals for lora_info_label and show_all_loras
 	lora_info_label.connect("meta_clicked", Callable(self, "_on_lora_info_label_meta_clicked"))
-	# warning-ignore:return_value_discarded
 	show_all_loras.connect("pressed", Callable(self, "_on_show_all_loras_pressed"))
-	# warning-ignore:return_value_discarded
-	lora_info_card.connect("hide", Callable(self, "_on_lora_info_card_hide"))
-	# warning-ignore:return_value_discarded
+	lora_info_card.connect("popup_hide", Callable(self, "_on_lora_info_card_hide"))
+	
+	# Connect signals for lora_model_strength and lora_clip_strength
 	lora_model_strength.connect("value_changed", Callable(self, "_on_lora_model_strength_value_changed"))
-	# warning-ignore:return_value_discarded
 	lora_clip_strength.connect("value_changed", Callable(self, "_on_lora_clip_strength_value_changed"))
-	# warning-ignore:return_value_discarded
-	fetch_from_civitai.connect("pressed", Callable(self, "_on_fetch_from_civitai_pressed"))
+	
+	# Connect signal for fetch_from_civitai
+	fetch_from_civitai.connect("pressed", Callable(self, "_on_fetch_from_civitai"))
+	
+	# Connect signals for EventBus
+	EventBus.connect("model_selected", Callable(self, "on_model_selection_changed"))
+	EventBus.connect("cache_wipe_requested", Callable(self, "on_cache_wipe_requested"))
+	
+	# Call _on_reference_retrieved and update selected_loras_label
 	_on_reference_retrieved(lora_reference_node.lora_reference)
-	selected_loras_list = globals.config.get_value("Parameters", "loras", [])
+	selected_loras_list = SettingsManager.get_setting("loras")
 	update_selected_loras_label()
 
 func replace_loras(loras: Array) -> void:
@@ -101,30 +100,42 @@ func replace_loras(loras: Array) -> void:
 	emit_signal("loras_modified", selected_loras_list)
 
 func _on_lora_selected(lora_name: String, is_version = false) -> void:
+	# Ensure that the selected lora list does not exceed 5
 	if selected_loras_list.size() >= 5:
 		return
+
 	var version_id: String
 	var final_lora_name: String
+
+	# If the lora is a specific version, use the provided version ID
+	# Otherwise, get the latest version ID for the lora
 	if is_version:
 		version_id = lora_name
 		final_lora_name = lora_reference_node.get_lora_name(lora_name)
 	else:
 		version_id = lora_reference_node.get_latest_version(lora_name)
 		final_lora_name = lora_name
+
+	# Append the selected lora to the list with relevant information
 	selected_loras_list.append(
 		{
 			"name": final_lora_name,
-			"model": 1.0,
+			"model": 1.0,  # Placeholder values for model and clip
 			"clip": 1.0,
-			"id": version_id, # ID holds just version ID. We always send version IDs
+			"id": version_id,  # ID holds just version ID. We always send version IDs
 			"lora_id": lora_reference_node.get_lora_info(version_id, true)["id"],
 			"is_version": true,
 		}
 	)
+
+	# Update the label displaying the selected loras
 	update_selected_loras_label()
+
+	# Emit signals for lora selection and modification
 	EventBus.emit_signal("lora_selected", lora_reference_node.get_lora_info(lora_name))
 	emit_signal("loras_modified", selected_loras_list)
 
+# This code snippet defines a function that sets the lora_auto_complete.selections to the model_reference, enables the fetch_from_civitai button, and initiates a search if civitai_search_initiated is true.
 func _on_reference_retrieved(model_reference: Dictionary):
 	lora_auto_complete.selections = model_reference
 	fetch_from_civitai.disabled = false

@@ -22,11 +22,11 @@ var blocklist := false
 
 
 func _ready():
-# warning-ignore:return_value_discarded
+
 	EventBus.connect("model_selected", Callable(self, "on_model_selection_changed"))
-	# warning-ignore:return_value_discarded
+	
 	stable_horde_workers.connect("workers_retrieved", Callable(self, "_on_workers_retrieved"))
-	# warning-ignore:return_value_discarded
+	
 	worker_auto_complete.connect("item_selected", Callable(self, "_on_worker_selected"))
 	
 	selected_workers.connect("meta_clicked", Callable(self, "_on_selected_workers_meta_clicked"))
@@ -35,11 +35,10 @@ func _ready():
 	worker_info_label.connect("meta_clicked", Callable(self, "_on_worker_info_workers_meta_clicked"))
 	show_all_workers.connect("pressed", Callable(self, "_on_show_all_workers_pressed"))
 	block_list.connect("toggled", Callable(self, "_on_blocklist_enabled"))
-# warning-ignore:return_value_discarded
-	worker_info_card.connect("hide", Callable(self, "_on_workers_info_card_hide"))
+	worker_info_card.connect("popup_hide", Callable(self, "_on_workers_info_card_hide"))
 	await get_tree().create_timer(0.2).timeout
-	selected_workers_list = globals.config.get_value("Options", "workers", [])
-	blocklist = globals.config.get_value("Options", "blocklist", false)
+	selected_workers_list = SettingsManager.get_setting("workers")
+	blocklist = SettingsManager.get_setting("blocklist")
 	block_list.button_pressed = blocklist
 	_update_selected_workers_label()
 	_emit_selected_workers()
@@ -198,7 +197,7 @@ func _on_selected_workers_meta_hover_ended(_meta: String) -> void:
 	EventBus.emit_signal("rtl_meta_unhovered",selected_workers)
 
 func _on_lora_info_workers_meta_clicked(meta) -> void:
-# warning-ignore:return_value_discarded
+
 	OS.shell_open(meta)
 
 func _on_show_all_workers_pressed() -> void:

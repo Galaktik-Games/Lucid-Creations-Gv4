@@ -1,30 +1,20 @@
+
 extends Node
 
-# warning-ignore:unused_signal
-signal node_hovered(node)
-# warning-ignore:unused_signal
-signal node_unhovered(node)
-# warning-ignore:unused_signal
-signal rtl_meta_hovered(rtlabel, string_id)
-# warning-ignore:unused_signal
-signal rtl_meta_unhovered(rtlabel)
+signal node_hovered(control)
+signal node_unhovered(control)
+signal rtl_meta_hovered(rt_label, string_id)
+signal rtl_meta_unhovered(rt_label)
 
-# These are used for other purposes
-# warning-ignore:unused_signal
 signal height_changed(hslider)
-# warning-ignore:unused_signal
 signal width_changed(hslider)
-# warning-ignore:unused_signal
 signal shared_toggled()
-# warning-ignore:unused_signal
 signal lora_selected(lora_details)
-# warning-ignore:unused_signal
 signal model_selected(model_details)
-# warning-ignore:unused_signal
 signal worker_selected(worker_details)
 signal kudos_calculated(kudos)
 signal generation_completed
-# warning-ignore:unused_signal
+
 signal cache_wipe_requested
 
 func _on_node_hovered(node: Control):

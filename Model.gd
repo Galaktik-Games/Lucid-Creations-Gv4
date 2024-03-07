@@ -23,11 +23,11 @@ var model_refresh: float
 
 
 func _ready():
-	# warning-ignore:return_value_discarded
+	
 	stable_horde_models.connect("on_models_retrieved", Callable(self, "_on_models_retrieved"))
-	# warning-ignore:return_value_discarded
+	
 	trigger_selection.connect("id_pressed", Callable(self, "_on_trigger_selection_id_pressed"))
-	# warning-ignore:return_value_discarded
+	
 	model_auto_complete.connect("item_selected", Callable(self, "_on_model_selected"))
 
 	stable_horde_model_showcase.connect("showcase_retrieved", Callable(self, "_on_showcase_retrieved"))
@@ -37,11 +37,11 @@ func _ready():
 	selected_models.connect("meta_hover_ended", Callable(self, "_on_selected_models_meta_hover_ended"))
 	model_info_label.connect("meta_clicked", Callable(self, "_on_model_info_models_meta_clicked"))
 	show_all_models.connect("pressed", Callable(self, "_on_show_all_models_pressed"))
-# warning-ignore:return_value_discarded
+
 	model_info_card.connect("popup_hide", Callable(self, "_on_models_info_card_hide"))
 	stable_horde_models.emit_models_retrieved()
 	await get_tree().create_timer(0.2).timeout
-	selected_models_list = globals.config.get_value("Parameters", "models", [])
+	SettingsManager.set_setting("models", selected_models_list)
 	_update_selected_models_label()
 	_emit_selected_models()
 	
@@ -117,7 +117,7 @@ As such, the result tend to be quite random as the image can be sent to somethin
 	model_info_card.global_position = get_global_mouse_position() + Vector2(30,-model_info_card.size.y/2)
 
 func _on_model_info_models_meta_clicked(meta) -> void:
-# warning-ignore:return_value_discarded
+
 	OS.shell_open(meta)
 
 func _on_model_trigger_pressed(model_name) -> void:
@@ -261,7 +261,7 @@ func _on_selected_models_meta_hover_ended(_meta: String) -> void:
 	EventBus.emit_signal("rtl_meta_unhovered",selected_models)
 
 func _on_lora_info_models_meta_clicked(meta) -> void:
-# warning-ignore:return_value_discarded
+
 	OS.shell_open(meta)
 
 func _on_show_all_models_pressed() -> void:

@@ -1,6 +1,5 @@
 @tool
-class_name ConfigSlider
-extends VBoxContainer
+class_name ConfigSlider extends VBoxContainer
 
 signal _on_value_changed
 
@@ -63,20 +62,18 @@ var generation_kudos = 0
 
 func _ready():
 	_adapt_to_config_name()
-	# warning-ignore:return_value_discarded
-	globals.connect("setting_changed", Callable(self, "_on_setting_changed"))
+	
+	SettingsManager.connect("setting_changed", Callable(self, "_on_setting_changed"))
 	if config_setting == "width":
-		# warning-ignore:return_value_discarded
 		EventBus.connect("height_changed", Callable(self, "_on_wh_changed"))
-	if config_setting == "height":
-		# warning-ignore:return_value_discarded
+	elif config_setting == "height":
 		EventBus.connect("width_changed", Callable(self, "_on_wh_changed"))
 	if config_setting in ["width", "height"]:
-		# warning-ignore:return_value_discarded
 		ParamBus.connect("models_changed", Callable(self, "_on_models_changed"))
-# warning-ignore:return_value_discarded
+
 	EventBus.connect("kudos_calculated", Callable(self, "_on_kudos_calculated"))
 	ParamBus.connect("params_changed", Callable(self, "_on_params_changed"))
+
 
 func set_value(value) -> void:
 	$"%HSlider".value = value
@@ -89,14 +86,14 @@ func set_max_value(max_value) -> void:
 
 func set_upfront_limit(_upfront_limit) -> void:
 	upfront_limit = _upfront_limit
-	if not globals.config.get_value("Options", "larger_values", false):
+	if not SettingsManager.config.get_value("Options", "larger_values", false):
 		$"%HSlider".max_value = upfront_limit
 
 func reset_upfront_limit() -> void:
 	if not CONFIG[config_setting].has('upfront_limit'):
 		return
 	upfront_limit = CONFIG[config_setting].upfront_limit
-	if not globals.config.get_value("Options", "larger_values", false):
+	if not SettingsManager.config.get_value("Options", "larger_values", false):
 		$"%HSlider".max_value = upfront_limit
 
 func reset_max_value() -> void:
@@ -132,7 +129,7 @@ func _on_HSlider_value_changed(value):
 
 func _on_setting_changed(setting_name):
 	if setting_name == "larger_values" and CONFIG[config_setting].has('upfront_limit'):
-		if globals.config.get_value("Options", "larger_values", false):
+		if SettingsManager.config.get_value("Options", "larger_values", false):
 			$"%HSlider".max_value = CONFIG[config_setting].max
 		else:
 			$"%HSlider".max_value = CONFIG[config_setting].upfront_limit
@@ -140,7 +137,7 @@ func _on_setting_changed(setting_name):
 
 # Only called for width/height changes
 func _on_config_slider_changed() -> void:
-	if upfront_limit != null and upfront_limit < h_slider.value and globals.user_kudos < generation_kudos:
+	if upfront_limit != null and upfront_limit < h_slider.value and SettingsManager.user_kudos < generation_kudos:
 		config_value.modulate = Color(1,0,0)
 		$"%HSlider".modulate = Color(1,0,0)
 	else:
@@ -159,11 +156,11 @@ func _on_wh_changed(sister_slider) -> void:
 		upfront_limit = 768
 	if "stable_diffusion_xl" in baselines:
 		upfront_limit = 1024
-	if not globals.config.get_value("Options", "larger_values", false):
+	if not SettingsManager.config.get_value("Options", "larger_values", false):
 		$"%HSlider".max_value = upfront_limit
 		if int(config_value.text) > upfront_limit:
 			config_value.text = str(upfront_limit)
-	if sister_slider.h_slider.value * h_slider.value > upfront_limit * upfront_limit and globals.user_kudos < generation_kudos:
+	if sister_slider.h_slider.value * h_slider.value > upfront_limit * upfront_limit and SettingsManager.user_kudos < generation_kudos:
 		for n in [sister_slider, self]:
 			n.config_value.modulate = Color(1,0,0)
 			n.h_slider.modulate = Color(1,0,0)
@@ -171,7 +168,6 @@ func _on_wh_changed(sister_slider) -> void:
 		for n in [sister_slider, self]:
 			n.config_value.modulate = Color(1,1,1)
 			n.h_slider.modulate = Color(1,1,1)
-
 
 func _on_models_changed(_models) -> void:
 	if not stored_sister_slider:

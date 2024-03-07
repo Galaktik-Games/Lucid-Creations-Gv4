@@ -32,7 +32,6 @@ var thread: Thread
 	$"%NegativePromptLine"
 ]
 
-
 func _ready() -> void:
 	#add_child(tween) ## Tweens were changed in v4
 	
@@ -58,7 +57,7 @@ func _ready() -> void:
 	# adjust text edit height
 	for node in text_edit_list:
 		node.connect("text_changed", Callable(self, "_edit_rect_min_size_y").bind(node))
-		node.connect("cursor_changed", Callable(self, "_edit_rect_min_size_y").bind(node))
+		node.connect("caret_changed", Callable(self, "_edit_rect_min_size_y").bind(node))
 		node.connect("focus_entered", Callable(self, "_edit_rect_min_size_y").bind(node))
 		node.connect("focus_exited", Callable(self, "_edit_rect_min_size_y").bind(node))
 		node.connect("mouse_entered", Callable(self, "_edit_rect_min_size_y").bind(node))
